@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Ab-iT · Route66 Collection | Luxe & Fast-Food</title>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Tailwind CDN (lightweight) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ---------- ROOT: GOLD METALLIC / NIGHT LUXE ---------- */
+    :root {
+      --gold-primary: #D4AF37;
+      --gold-metallic: linear-gradient(135deg, #F9E7B3 0%, #D4AF37 40%, #AA7700 70%, #E5C76F 100%);
+      --gold-glow: rgba(212, 175, 55, 0.4);
+      --deep-onyx: #0B0A0E;
+      --carbon-black: #111111;
+      --dark-burgundy: #2B1020;
+      --copper-accent: #B87333;
+      --cream-white: #FCF7F0;
+      --glass-edge: rgba(212, 175, 55, 0.2);
+      --road-red: #C12B2B;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--deep-onyx);
+      color: var(--cream-white);
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ---- LUXURY CURSOR ---- */
+    .cursor-dot {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      background: var(--gold-primary);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background 0.2s;
+      box-shadow: 0 0 12px rgba(212,175,55,0.7);
+    }
+    .cursor-outline {
+      position: fixed;
+      width: 42px;
+      height: 42px;
+      border: 1.5px solid rgba(212,175,55,0.7);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.12s ease, width 0.2s, height 0.2s, border-color 0.2s;
+      backdrop-filter: blur(2px);
+    }
+    .cursor-dot.hovered {
+      width: 20px;
+      height: 20px;
+      background: var(--cream-white);
+      box-shadow: 0 0 28px gold;
+    }
+    .cursor-outline.hovered {
+      width: 64px;
+      height: 64px;
+      border-color: rgba(255,215,0,0.9);
+      backdrop-filter: blur(6px);
+    }
+
+    /* Background metallic texture + gold dust */
+    .bg-luxury {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: radial-gradient(circle at 20% 30%, rgba(212,175,55,0.08) 0%, rgba(0,0,0,0.95) 90%),
+                  repeating-linear-gradient(45deg, rgba(212,175,55,0.02) 0px, rgba(212,175,55,0.02) 2px, transparent 2px, transparent 8px);
+    }
+
+    /* floating orbs with gold ambiance */
+    .gold-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.5;
+      animation: driftGold 14s infinite alternate ease-in-out;
+    }
+    @keyframes driftGold {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(6%, 8%) scale(1.2); }
+    }
+
+    /* grille fine dorée */
+    .grid-subtle {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(212,175,55,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212,175,55,0.04) 1px, transparent 1px);
+      background-size: 70px 70px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* canvas particles */
+    #particles-gold {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* main container */
+    .page {
+      position: relative;
+      z-index: 12;
+      padding: 50px 24px 80px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* logo luxury gold */
+    .logo-container {
+      opacity: 0;
+      transform: translateY(-24px);
+      animation: fadeUp 0.9s cubic-bezier(0.2, 0.9, 0.3, 1.1) 0.2s forwards;
+    }
+    .logo-gold-ring {
+      width: 150px;
+      height: 150px;
+      border-radius: 60px;
+      background: rgba(20, 15, 10, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(212,175,55,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 30px rgba(212,175,55,0.2), inset 0 1px 0 rgba(255,245,200,0.2);
+    }
+    .abit-svg-text {
+      filter: drop-shadow(0 0 12px rgba(212,175,55,0.6));
+    }
+
+    .gold-badge {
+      display: inline-flex;
+      gap: 8px;
+      background: rgba(212,175,55,0.12);
+      border: 1px solid rgba(212,175,55,0.35);
+      border-radius: 60px;
+      padding: 6px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      color: #E5C76F;
+      backdrop-filter: blur(4px);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.1s forwards;
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .headline h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(34px, 6vw, 58px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #FFF8E7 0%, var(--gold-primary) 40%, #C99F1E 80%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .headline p {
+      color: rgba(252,247,240,0.5);
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+    }
+
+    /* Stats row premium */
+    .stats-row {
+      display: flex;
+      gap: 40px;
+      margin-top: 28px;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(12px);
+      padding: 8px 28px;
+      border-radius: 80px;
+      border: 0.5px solid rgba(212,175,55,0.3);
+    }
+    .stat-item .stat-number {
+      font-family: 'Syne', monospace;
+      font-weight: 800;
+      font-size: 28px;
+      background: var(--gold-metallic);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .stat-item .stat-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: rgba(255,235,200,0.5);
+    }
+
+    /* Cards grid */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 40px;
+      max-width: 1100px;
+      width: 100%;
+      margin-top: 60px;
+    }
+
+    .card-3d {
+      opacity: 0;
+      transform: translateY(30px);
+      animation: cardReveal 0.8s cubic-bezier(0.2,0.9,0.4,1.1) forwards;
+      perspective: 1400px;
+    }
+    .card-3d:first-child { animation-delay: 0.4s; }
+    .card-3d:last-child { animation-delay: 0.6s; }
+    @keyframes cardReveal { to { opacity: 1; transform: translateY(0); } }
+
+    .card-inner {
+      background: rgba(10, 8, 12, 0.65);
+      backdrop-filter: blur(18px);
+      border-radius: 36px;
+      border: 1px solid rgba(212,175,55,0.35);
+      overflow: hidden;
+      transition: transform 0.08s linear, box-shadow 0.4s;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(212,175,55,0.1);
+      transform-style: preserve-3d;
+    }
+    .card-inner:hover {
+      box-shadow: 0 32px 55px -15px black, 0 0 0 2px rgba(212,175,55,0.4);
+    }
+
+    .card-illustration {
+      height: 220px;
+      background-size: cover;
+      position: relative;
+      border-bottom: 1px solid rgba(212,175,55,0.3);
+    }
+
+    /* two cards specific styles */
+    .illu-route66 {
+      background: linear-gradient(135deg, #1E1A1A 0%, #2A2015 100%);
+    }
+    .illu-catering {
+      background: linear-gradient(145deg, #1A1520 0%, #2B1A24 100%);
+    }
+
+    .card-content {
+      padding: 28px 28px 32px;
+    }
+
+    .model-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(212,175,55,0.12);
+      padding: 5px 14px;
+      border-radius: 40px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gold-primary);
+      border: 0.5px solid rgba(212,175,55,0.4);
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #FFF2D7, #D4AF37);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: rgba(255,245,230,0.65);
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+
+    /* DOUBLE LINKS ROW */
+    .links-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .btn-model {
+      flex: 1;
+      text-align: center;
+      padding: 12px 8px;
+      border-radius: 44px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.25s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      backdrop-filter: blur(10px);
+      cursor: none;
+    }
+    .btn-gold {
+      background: linear-gradient(115deg, #D4AF37, #B27D28);
+      color: #0B0A0E;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.3);
+      border: none;
+    }
+    .btn-gold:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 20px rgba(212,175,55,0.3);
+      background: linear-gradient(115deg, #E5C76F, #C69C2D);
+    }
+    .btn-outline-gold {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(212,175,55,0.7);
+      color: var(--gold-primary);
+    }
+    .btn-outline-gold:hover {
+      background: rgba(212,175,55,0.15);
+      border-color: var(--gold-primary);
+      transform: translateY(-2px);
+      color: #FFE5B4;
+    }
+
+    /* footer */
+    .luxury-footer {
+      margin-top: 70px;
+      text-align: center;
+      font-size: 12px;
+      color: rgba(212,175,55,0.45);
+      border-top: 1px solid rgba(212,175,55,0.2);
+      padding-top: 32px;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    @media (max-width: 720px) {
+      .cards-grid { gap: 28px; }
+      .stats-row { gap: 20px; padding: 6px 20px; }
+      .links-row { flex-direction: column; }
+      .btn-model { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- CUSTOM CURSOR GOLD -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-outline" id="cursorOutline"></div>
+
+<!-- Background layers -->
+<div class="bg-luxury"></div>
+<div class="grid-subtle"></div>
+<canvas id="particles-gold"></canvas>
+
+<!-- Floating gold orbs -->
+<div class="gold-orb" style="width: 450px; height: 450px; background: radial-gradient(circle, #D4AF3740, transparent); bottom: -150px; left: -120px;"></div>
+<div class="gold-orb" style="width: 380px; height: 380px; background: radial-gradient(circle, #B8733340, transparent); top: 20%; right: -80px; animation-duration: 18s;"></div>
+<div class="gold-orb" style="width: 300px; height: 300px; background: radial-gradient(circle, #F9E7B330, transparent); top: 60%; left: 20%; animation-duration: 12s;"></div>
+
+<main class="page">
+  <!-- badge -->
+  <div class="gold-badge">
+    ✦ ROUTE66 COLLECTION ✦ LUXE & ICONIC
+  </div>
+
+  <!-- logo -->
+  <div class="logo-container">
+    <div class="logo-gold-ring">
+      <svg class="abit-svg-text" width="115" height="58" viewBox="0 0 115 58" fill="none">
+        <text x="2" y="44" font-family="'Syne', sans-serif" font-weight="800" font-size="42" fill="url(#goldGrad)" letter-spacing="-2">Ab</text>
+        <rect x="74" y="22" width="12" height="6" rx="3" fill="#D4AF37" />
+        <text x="88" y="44" font-family="'Syne', sans-serif" font-weight="800" font-size="42" fill="#D4AF37" letter-spacing="-2">iT</text>
+        <rect x="2" y="48" width="110" height="2" rx="1" fill="url(#goldLine)" opacity="0.8"/>
+        <defs>
+          <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#F9E7B3"/>
+            <stop offset="50%" stop-color="#D4AF37"/>
+            <stop offset="100%" stop-color="#AA7700"/>
+          </linearGradient>
+          <linearGradient id="goldLine" x1="0" y1="0" x2="115" y2="0">
+            <stop offset="0%" stop-color="#D4AF37" stop-opacity="0"/>
+            <stop offset="35%" stop-color="#D4AF37" stop-opacity="1"/>
+            <stop offset="65%" stop-color="#F9E7B3" stop-opacity="1"/>
+            <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+  </div>
+
+  <!-- headline -->
+  <div class="headline text-center mt-7">
+    <h1>Gold Route66 · Double vision</h1>
+    <p class="mt-2 max-w-md mx-auto">Deux modèles, une signature exclusive — ambiance fast‑food américain ou traiteur d'exception. Sélectionnez votre univers.</p>
+  </div>
+
+  <!-- stats métal -->
+  <div class="stats-row mt-6">
+    <div class="stat-item text-center"><div class="stat-number">✦2✦</div><div class="stat-label">Modèles iconiques</div></div>
+    <div class="stat-item text-center"><div class="stat-number">∞</div><div class="stat-label">Personnalisation</div></div>
+    <div class="stat-item text-center"><div class="stat-number">24/7</div><div class="stat-label">Support VIP</div></div>
+  </div>
+
+  <!-- CARDS (2 projets, chacun 2 liens) -->
+  <div class="cards-grid">
+
+    <!-- PROJET 1 : ROUTE66 FAST-FOOD (modèle burger / diner) -->
+    <div class="card-3d">
+      <div class="card-inner" id="cardFastfood">
+        <div class="card-illustration illu-route66 relative overflow-hidden">
+          <!-- SVG custom fast-food road theme -->
+          <svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="none" style="position: absolute; top:0; left:0;">
+            <defs>
+              <linearGradient id="skyRoad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#0F0C0A"/>
+                <stop offset="100%" stop-color="#2A1E15"/>
+              </linearGradient>
+              <linearGradient id="goldStrip" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#D4AF37" stop-opacity="1"/>
+                <stop offset="100%" stop-color="#FFE28A" stop-opacity="0.9"/>
+              </linearGradient>
+            </defs>
+            <rect width="400" height="220" fill="url(#skyRoad)"/>
+            <!-- neon Route 66 sign -->
+            <rect x="30" y="25" width="75" height="35" rx="6" fill="#C12B2B" stroke="#D4AF37" stroke-width="1.5"/>
+            <text x="67" y="44" font-family="Syne" font-weight="800" font-size="11" fill="white" text-anchor="middle">ROUTE</text>
+            <circle cx="67" cy="54" r="11" fill="#C12B2B" stroke="#D4AF37" stroke-width="1"/>
+            <text x="67" y="57" font-family="Syne" font-size="12" font-weight="800" fill="white" text-anchor="middle">66</text>
+            <!-- road asphalt -->
+            <polygon points="80,140 320,140 380,220 20,220" fill="#1A1512"/>
+            <line x1="80" y1="140" x2="20" y2="220" stroke="#D4AF37" stroke-width="2" stroke-dasharray="6 6" opacity="0.8"/>
+            <line x1="320" y1="140" x2="380" y2="220" stroke="#D4AF37" stroke-width="2" stroke-dasharray="6 6" opacity="0.8"/>
+            <rect x="185" y="150" width="30" height="12" rx="4" fill="#D4AF37" opacity="0.9"/>
+            <!-- diner car -->
+            <g transform="translate(240, 130)">
+              <rect x="0" y="5" width="50" height="14" rx="3" fill="#B87333"/>
+              <rect x="6" y="0" width="36" height="8" rx="3" fill="#E5A54F"/>
+              <circle cx="10" cy="19" r="6" fill="#222"/><circle cx="40" cy="19" r="6" fill="#222"/>
+              <ellipse cx="47" cy="11" rx="4" ry="3" fill="#FFD966"/>
+            </g>
+            <!-- burger icon gold -->
+            <circle cx="90" cy="100" r="18" fill="none" stroke="#D4AF37" stroke-width="2" opacity="0.8"/>
+            <text x="90" y="106" text-anchor="middle" font-size="18">🍔</text>
+            <text x="280" y="90" fill="#D4AF37" font-size="12" opacity="0.9">⚡ GOLDEN DINER</text>
+          </svg>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+        </div>
+        <div class="card-content">
+          <div class="model-badge"><span>🏁 AMERICAN ROAD · FAST-FOOD</span> <span>🔥</span></div>
+          <h3 class="card-title">Route 66 Diner</h3>
+          <p class="card-desc">Site explosif & vintage-chic pour restaurant rapide : menu burgers XXL, drive, ambiance Route66, réservations instantanées et carte gold métal.</p>
+          
+          <!-- DEUX LIENS (deux modèles distincts) -->
+          <div class="links-row">
+            <a href="website/index.html" class="btn-model btn-gold">
+              <span>🚀 Modèle "Speedway"</span>
+            </a>
+            <a href="website/index-1.html" class="btn-model btn-outline-gold">
+              <span>✨ Modèle "Classic Diner"</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJET 2 : ROUTE66 CATERING / TRAITEUR LUXE (deux liens également) -->
+    <div class="card-3d">
+      <div class="card-inner" id="cardCatering">
+        <div class="card-illustration illu-catering relative">
+          <svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="none" style="position: absolute;">
+            <defs>
+              <radialGradient id="luxGlow" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#1B1420"/>
+              </radialGradient>
+            </defs>
+            <rect width="400" height="220" fill="#16101E"/>
+            <circle cx="200" cy="110" r="90" fill="url(#luxGlow)"/>
+            <!-- gourmet plate gold -->
+            <ellipse cx="200" cy="140" rx="70" ry="26" fill="#2E222E" stroke="#D4AF37" stroke-width="1.5"/>
+            <ellipse cx="200" cy="135" rx="48" ry="16" fill="#3D2A3D"/>
+            <ellipse cx="200" cy="133" rx="26" ry="8" fill="#F4C542" opacity="0.8"/>
+            <!-- champagne coupe -->
+            <path d="M95 85 L105 85 L100 65 Z" fill="#D4AF37" opacity="0.8"/>
+            <ellipse cx="100" cy="85" rx="10" ry="3" fill="#F9E7B3"/>
+            <!-- diamond sparkle -->
+            <text x="300" y="50" font-size="22" fill="#D4AF37" opacity="0.7">✦</text>
+            <text x="340" y="90" font-size="16" fill="#FFDFA0">⤑</text>
+            <text x="50" y="170" font-size="12" fill="#D4AF37">ÉVÉNEMENTS EXCLUSIFS</text>
+            <!-- truffle icon -->
+            <text x="290" y="165" font-size="24">🥂</text>
+            <text x="70" y="55" font-size="28">🍽️</text>
+          </svg>
+        </div>
+        <div class="card-content">
+          <div class="model-badge"><span>🥂 CATERING PREMIUM · GOLD SERVICE</span> <span>✦</span></div>
+          <h3 class="card-title">Route66 Catering</h3>
+          <p class="card-desc">Traiteur d'exception : sites vitrines pour mariages, cocktails d'affaires & réceptions privées. Galerie immersive, devis en ligne, landing dorée.</p>
+          <div class="links-row">
+            <a href="catering/index.html" class="btn-model btn-gold" >
+              <span>🥇 Modèle "Platinum Event"</span>
+            </a>
+            <a href="catering/index-1.html" class="btn-model btn-outline-gold" >
+              <span>🍾 Modèle "Golden Service"</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="luxury-footer">
+    <p>⭐ Ab-iT · Chaque projet intègre deux variations uniques. Personnalisation complète & licence gold métal. ⭐</p>
+    <p class="mt-2">✨ Route66 | American spirit meets luxe ✨</p>
+  </div>
+</main>
+
+<script>
+  // ----- GOLD PARTICLES ANIMATION (neige dorée)
+  const canvas = document.getElementById('particles-gold');
+  const ctxP = canvas.getContext('2d');
+  let width = window.innerWidth, height = window.innerHeight;
+  canvas.width = width; canvas.height = height;
+
+  let particles = [];
+  const PARTICLE_COUNT = 110;
+
+  function initParticles() {
+    particles = [];
+    for(let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        radius: Math.random() * 2.2 + 0.6,
+        alpha: Math.random() * 0.5 + 0.15,
+        speedX: (Math.random() - 0.5) * 0.2,
+        speedY: Math.random() * 0.3 + 0.1,
+        color: `rgba(212, 175, 55, ${Math.random() * 0.5 + 0.2})`
+      });
+    }
+  }
+  function drawGoldParticles() {
+    if(!ctxP) return;
+    ctxP.clearRect(0, 0, width, height);
+    for(let p of particles) {
+      ctxP.beginPath();
+      ctxP.arc(p.x, p.y, p.radius, 0, Math.PI*2);
+      ctxP.fillStyle = p.color;
+      ctxP.fill();
+      p.x += p.speedX;
+      p.y += p.speedY;
+      if(p.x < -10) p.x = width + 10;
+      if(p.x > width + 10) p.x = -10;
+      if(p.y > height + 10) p.y = -10;
+      if(p.y < -10) p.y = height + 10;
+    }
+    requestAnimationFrame(drawGoldParticles);
+  }
+  window.addEventListener('resize', () => {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    initParticles();
+  });
+  initParticles();
+  drawGoldParticles();
+
+  // ----- CUSTOM CURSOR (gold metallic)
+  const dot = document.getElementById('cursorDot');
+  const outline = document.getElementById('cursorOutline');
+  let mouseX = 0, mouseY = 0;
+  let outlineX = 0, outlineY = 0;
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.left = mouseX + 'px';
+    dot.style.top = mouseY + 'px';
+  });
+  function animateOutline() {
+    outlineX += (mouseX - outlineX) * 0.12;
+    outlineY += (mouseY - outlineY) * 0.12;
+    outline.style.left = outlineX + 'px';
+    outline.style.top = outlineY + 'px';
+    requestAnimationFrame(animateOutline);
+  }
+  animateOutline();
+
+  // Hover effects for all interactive elements (buttons, cards, links)
+  const interactiveItems = document.querySelectorAll('a, .btn-model, .card-inner, .gold-badge');
+  interactiveItems.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      dot.classList.add('hovered');
+      outline.classList.add('hovered');
+    });
+    el.addEventListener('mouseleave', () => {
+      dot.classList.remove('hovered');
+      outline.classList.remove('hovered');
+    });
+  });
+
+  // 3D TILT EFFECT for cards (smooth)
+  function apply3DTilt(cardElement) {
+    const inner = cardElement;
+    if(!inner) return;
+    inner.addEventListener('mousemove', (e) => {
+      const rect = inner.getBoundingClientRect();
+      const centerX = rect.left + rect.width/2;
+      const centerY = rect.top + rect.height/2;
+      const deltaX = (e.clientX - centerX) / (rect.width/2);
+      const deltaY = (e.clientY - centerY) / (rect.height/2);
+      const rotateY = deltaX * 12;
+      const rotateX = deltaY * -8;
+      inner.style.transform = `perspective(1400px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(4px)`;
+      inner.style.transition = 'transform 0.05s linear';
+    });
+    inner.addEventListener('mouseleave', () => {
+      inner.style.transform = 'perspective(1400px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+      inner.style.transition = 'transform 0.4s cubic-bezier(0.2,0.9,0.4,1.1)';
+    });
+  }
+
+  const cardFast = document.getElementById('cardFastfood');
+  const cardCater = document.getElementById('cardCatering');
+  if(cardFast) apply3DTilt(cardFast);
+  if(cardCater) apply3DTilt(cardCater);
+
+  // demo alert function for preview (shows model switching)
+  window.demoAlert = (msg) => {
+    alert("✨ Ab-iT · Aperçu modèle :\n\n" + msg + "\n\n(Version démo — lien actif sur projet réel)");
+  };
+
+  // Prevent context menu on custom cursor
+  document.addEventListener('contextmenu', (e) => e.preventDefault());
+</script>
+</body>
+</html>

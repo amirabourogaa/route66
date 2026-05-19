@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Route66 Catering | Restauration Premium en Tunisie</title>
+<meta name="description" content="Route66 Catering – Solutions de restauration professionnelle, catering et food service haut de gamme en Tunisie. Qualité, hygiène et excellence pour entreprises, institutions et événements."/>
+<meta name="keywords" content="catering tunisie, restauration collective, food service, traiteur tunisie, route66 catering"/>
+<meta property="og:title" content="Route66 Catering | Restauration Premium Tunisie"/>
+<meta property="og:description" content="Catering d'exception pour entreprises et événements en Tunisie."/>
+<meta property="og:type" content="website"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        gold: { DEFAULT:'#C9A84C', light:'#E8C86A', dark:'#9B7A2A', pale:'#F5E8C0' },
+        noir: { DEFAULT:'#0A0A0A', soft:'#141414', card:'#1A1A1A', border:'#2A2A2A' },
+        cream: { DEFAULT:'#FAF7F0', warm:'#F0EAD6' },
+      },
+      fontFamily: {
+        display: ['Cormorant Garamond','serif'],
+        body: ['Outfit','sans-serif'],
+      },
+    }
+  }
+}
+</script>
+<style>
+:root{
+  --gold:#C9A84C; --gold-light:#E8C86A; --gold-dark:#9B7A2A;
+  --noir:#0A0A0A; --noir-soft:#141414; --noir-card:#1A1A1A;
+  --cream:#FAF7F0;
+}
+*{margin:0;padding:0;box-sizing:border-box;scroll-behavior:smooth;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--noir);color:var(--cream);overflow-x:hidden;}
+
+/* LOADER */
+#loader{position:fixed;inset:0;background:var(--noir);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px;transition:opacity .6s ease,visibility .6s ease;}
+#loader.hide{opacity:0;visibility:hidden;}
+.loader-logo{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;color:var(--gold);letter-spacing:.3em;animation:pulse 1.5s ease-in-out infinite;}
+.loader-bar{width:200px;height:2px;background:#222;border-radius:2px;overflow:hidden;}
+.loader-fill{height:100%;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light),var(--gold-dark));background-size:200% 100%;animation:shimmer 1.5s linear infinite,fill 2.2s ease forwards;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes fill{from{width:0}to{width:100%}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* GOLD GRADIENT TEXT */
+.gold-text{background:linear-gradient(135deg,var(--gold-dark),var(--gold-light),var(--gold),var(--gold-dark));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.gold-border{border:1px solid rgba(201,168,76,.35);}
+
+/* GLASSMORPHISM */
+.glass{background:rgba(26,26,26,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(201,168,76,.15);}
+.glass-light{background:rgba(201,168,76,.08);backdrop-filter:blur(12px);border:1px solid rgba(201,168,76,.2);}
+
+/* NAVBAR */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;transition:all .4s ease;}
+nav.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);box-shadow:0 4px 30px rgba(201,168,76,.1);}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;letter-spacing:.15em;}
+
+/* CTA BUTTON */
+.btn-gold{background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));color:#000;font-weight:600;letter-spacing:.08em;transition:all .35s ease;position:relative;overflow:hidden;}
+.btn-gold::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--gold-light),var(--gold),var(--gold-dark));opacity:0;transition:opacity .35s ease;}
+.btn-gold:hover::before{opacity:1;}
+.btn-gold span{position:relative;z-index:1;}
+.btn-outline{border:1.5px solid var(--gold);color:var(--gold);font-weight:500;letter-spacing:.08em;transition:all .35s ease;}
+.btn-outline:hover{background:var(--gold);color:#000;}
+
+/* HERO */
+.hero-bg{background:linear-gradient(180deg,rgba(10,10,10,0) 0%,rgba(10,10,10,.85) 70%,var(--noir) 100%),url('https://images.unsplash.com/photo-1555244162-803834f70033?w=1920&q=85&auto=format&fit=crop') center/cover no-repeat fixed;}
+.hero-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+
+/* SECTION TITLES */
+.section-tag{font-size:.7rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);font-weight:600;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:300;line-height:1.1;}
+
+/* DIVIDER */
+.gold-divider{display:flex;align-items:center;gap:12px;}
+.gold-divider::before,.gold-divider::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.gold-divider-diamond{width:8px;height:8px;background:var(--gold);transform:rotate(45deg);}
+
+/* CARDS */
+.service-card{background:var(--noir-card);border:1px solid rgba(201,168,76,.1);transition:all .4s ease;position:relative;overflow:hidden;}
+.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.07),transparent);opacity:0;transition:opacity .4s ease;}
+.service-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-6px);box-shadow:0 20px 60px rgba(201,168,76,.12);}
+.service-card:hover::before{opacity:1;}
+.service-icon{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,rgba(201,168,76,.15),rgba(201,168,76,.05));border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
+
+/* GALLERY */
+.gallery-item{overflow:hidden;position:relative;cursor:pointer;}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;}
+.gallery-item:hover img{transform:scale(1.08);}
+.gallery-overlay{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(10,10,10,.9));opacity:0;transition:opacity .4s ease;display:flex;align-items:flex-end;padding:1.5rem;}
+.gallery-item:hover .gallery-overlay{opacity:1;}
+
+/* MENU CARDS */
+.menu-card{background:var(--noir-card);border:1px solid rgba(201,168,76,.15);transition:all .4s ease;position:relative;overflow:hidden;}
+.menu-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light));transform:scaleX(0);transition:transform .4s ease;}
+.menu-card:hover::after{transform:scaleX(1);}
+.menu-card:hover{border-color:rgba(201,168,76,.4);box-shadow:0 16px 50px rgba(201,168,76,.1);}
+
+/* STATS */
+.stat-number{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:600;color:var(--gold);}
+
+/* FORM */
+.form-input{background:rgba(26,26,26,.8);border:1px solid rgba(201,168,76,.2);color:var(--cream);font-family:'Outfit',sans-serif;transition:border-color .3s ease,box-shadow .3s ease;}
+.form-input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.1);}
+.form-input::placeholder{color:rgba(250,247,240,.35);}
+.form-label{color:rgba(250,247,240,.7);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem;display:block;}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s ease,transform .8s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-left{opacity:0;transform:translateX(-50px);transition:opacity .8s ease,transform .8s ease;}
+.reveal-left.visible{opacity:1;transform:translateX(0);}
+.reveal-right{opacity:0;transform:translateX(50px);transition:opacity .8s ease,transform .8s ease;}
+.reveal-right.visible{opacity:1;transform:translateX(0);}
+
+/* PARALLAX */
+.parallax-slow{will-change:transform;}
+
+/* TICKER */
+.ticker-wrap{overflow:hidden;background:linear-gradient(90deg,var(--gold-dark),var(--gold),var(--gold-dark));padding:.6rem 0;}
+.ticker{display:flex;animation:tick 25s linear infinite;}
+.ticker-item{white-space:nowrap;padding:0 3rem;font-size:.75rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#000;}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* MAP */
+.map-frame{border:1px solid rgba(201,168,76,.2);filter:grayscale(.7) contrast(1.1);transition:filter .4s;}
+.map-frame:hover{filter:grayscale(0) contrast(1);}
+
+/* FOOTER */
+footer{background:linear-gradient(180deg,var(--noir-soft) 0%,#050505 100%);}
+.footer-link{color:rgba(250,247,240,.5);transition:color .3s;}
+.footer-link:hover{color:var(--gold);}
+
+/* FLOATING ELEMENTS */
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.float{animation:float 4s ease-in-out infinite;}
+
+/* NAV LINK */
+.nav-link{position:relative;color:rgba(250,247,240,.8);font-size:.85rem;letter-spacing:.06em;transition:color .3s;}
+.nav-link::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s;}
+.nav-link:hover{color:var(--gold);}
+.nav-link:hover::after{width:100%;}
+
+/* MOBILE MENU */
+#mobile-menu{transform:translateY(-100%);transition:transform .4s ease;}
+#mobile-menu.open{transform:translateY(0);}
+
+/* LIGHTBOX */
+#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9000;display:none;align-items:center;justify-content:center;}
+#lightbox.open{display:flex;}
+#lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;}
+
+/* NOISE TEXTURE */
+.noise::after{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;opacity:.04;}
+
+/* CUSTOM SCROLLBAR */
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--noir);}
+::-webkit-scrollbar-thumb{background:var(--gold-dark);border-radius:3px;}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">R66 &bull; CATERING</div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+  <p style="font-size:.7rem;letter-spacing:.3em;color:rgba(201,168,76,.5);margin-top:8px;">CHARGEMENT EN COURS</p>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="max-w-7xl mx-auto px-5 py-4 flex items-center justify-between">
+    <a href="#accueil" class="nav-logo gold-text">ROUTE<span style="font-weight:700">66</span></a>
+
+    <!-- Desktop Nav -->
+    <ul class="hidden lg:flex items-center gap-8">
+      <li><a href="#about" class="nav-link">À propos</a></li>
+      <li><a href="#services" class="nav-link">Services</a></li>
+      <li><a href="#menus" class="nav-link">Menus</a></li>
+      <li><a href="#galerie" class="nav-link">Galerie</a></li>
+      <li><a href="#devis" class="nav-link">Devis</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <a href="#reservation" class="hidden lg:inline-flex btn-gold px-6 py-2.5 text-sm rounded-sm items-center gap-2">
+      <span>Réserver</span>
+    </a>
+
+    <!-- Mobile toggle -->
+    <button id="menu-toggle" class="lg:hidden flex flex-col gap-1.5 p-2" aria-label="Menu">
+      <span class="w-6 h-0.5 bg-gold block transition-all"></span>
+      <span class="w-4 h-0.5 bg-gold block transition-all"></span>
+      <span class="w-6 h-0.5 bg-gold block transition-all"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="lg:hidden glass absolute top-full left-0 right-0 py-6 px-5 flex flex-col gap-4">
+    <a href="#about" class="nav-link py-2 border-b border-gold/10">À propos</a>
+    <a href="#services" class="nav-link py-2 border-b border-gold/10">Services</a>
+    <a href="#menus" class="nav-link py-2 border-b border-gold/10">Menus</a>
+    <a href="#galerie" class="nav-link py-2 border-b border-gold/10">Galerie</a>
+    <a href="#devis" class="nav-link py-2 border-b border-gold/10">Devis</a>
+    <a href="#contact" class="nav-link py-2 border-b border-gold/10">Contact</a>
+    <a href="#reservation" class="btn-gold px-6 py-3 text-sm text-center mt-2 rounded-sm">Réserver maintenant</a>
+  </div>
+</nav>
+
+<!-- ========================= HERO ========================= -->
+<section id="accueil" class="hero-bg relative min-h-screen flex items-center justify-center noise" style="padding-top:80px;">
+  <!-- Particles -->
+  <div class="hero-particles" id="particles"></div>
+
+  <!-- Gold corner decoration -->
+  <div class="absolute top-24 left-8 w-20 h-20 border-t border-l border-gold/40 hidden md:block"></div>
+  <div class="absolute top-24 right-8 w-20 h-20 border-t border-r border-gold/40 hidden md:block"></div>
+  <div class="absolute bottom-16 left-8 w-20 h-20 border-b border-l border-gold/40 hidden md:block"></div>
+  <div class="absolute bottom-16 right-8 w-20 h-20 border-b border-r border-gold/40 hidden md:block"></div>
+
+  <div class="max-w-6xl mx-auto px-5 text-center relative z-10">
+    <div class="section-tag mb-6 float" style="animation-delay:.2s">✦ Catering Premium en Tunisie ✦</div>
+    <h1 class="section-title text-white mb-4" style="font-size:clamp(2.8rem,7vw,5.5rem);font-weight:300;line-height:1.05;">
+      L'Art de la<br/>
+      <em class="gold-text" style="font-style:italic;font-weight:400;">Restauration d'Exception</em>
+    </h1>
+    <div class="gold-divider my-8 max-w-xs mx-auto"><div class="gold-divider-diamond"></div></div>
+    <p class="text-white/65 text-lg max-w-2xl mx-auto mb-10 leading-relaxed" style="font-weight:300;">
+      Solutions de restauration professionnelle, catering et food service pour entreprises, institutions et événements prestige en Tunisie.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <a href="#devis" class="btn-gold px-8 py-4 text-sm rounded-sm inline-flex items-center gap-3">
+        <span>Demander un devis</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#services" class="btn-outline px-8 py-4 text-sm rounded-sm inline-flex items-center gap-3">
+        <span>Découvrir nos services</span>
+      </a>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60">
+      <span style="font-size:.65rem;letter-spacing:.3em;color:var(--gold)">DÉFILER</span>
+      <div style="width:1px;height:40px;background:linear-gradient(to bottom,var(--gold),transparent);animation:float 2s ease-in-out infinite;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">✦ Restauration Collective</span>
+    <span class="ticker-item">✦ Catering Événementiel</span>
+    <span class="ticker-item">✦ Food Service Corporate</span>
+    <span class="ticker-item">✦ Standards ISO Qualité</span>
+    <span class="ticker-item">✦ Certifié HACCP</span>
+    <span class="ticker-item">✦ Tunisie & International</span>
+    <span class="ticker-item">✦ Restauration Collective</span>
+    <span class="ticker-item">✦ Catering Événementiel</span>
+    <span class="ticker-item">✦ Food Service Corporate</span>
+    <span class="ticker-item">✦ Standards ISO Qualité</span>
+    <span class="ticker-item">✦ Certifié HACCP</span>
+    <span class="ticker-item">✦ Tunisie & International</span>
+  </div>
+</div>
+
+<!-- ========================= À PROPOS ========================= -->
+<section id="about" class="py-28 relative overflow-hidden">
+  <!-- Background accent -->
+  <div class="absolute top-0 right-0 w-96 h-96 rounded-full opacity-5" style="background:radial-gradient(circle,var(--gold),transparent);transform:translate(30%,-30%)"></div>
+
+  <div class="max-w-7xl mx-auto px-5 grid lg:grid-cols-2 gap-16 items-center">
+    <!-- Left: Text -->
+    <div class="reveal-left">
+      <div class="section-tag mb-4">✦ Notre histoire</div>
+      <h2 class="section-title text-white mb-6">
+        Qui sommes-<br/><span class="gold-text">nous</span>
+      </h2>
+      <div class="gold-divider mb-8 max-w-xs"><div class="gold-divider-diamond"></div></div>
+      <p class="text-white/60 leading-relaxed mb-6" style="font-size:1.05rem;">
+        <strong class="text-gold/90">Route66 Catering</strong> — Catering Continental &amp; Food Service est une entreprise spécialisée dans les solutions de restauration professionnelle, de catering et de food service en Tunisie.
+      </p>
+      <p class="text-white/55 leading-relaxed mb-8">
+        L'entreprise accompagne sociétés, institutions et événements avec des prestations conformes aux standards de qualité, d'hygiène et de sécurité alimentaire les plus exigeants. Notre équipe de chefs certifiés et de logisticiens passionnés garantit une expérience culinaire mémorable à chaque service.
+      </p>
+      <!-- Values -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="glass-light p-4 rounded-sm">
+          <div class="text-gold text-lg mb-1">✦</div>
+          <div class="text-white text-sm font-semibold mb-1">Qualité Premium</div>
+          <div class="text-white/45 text-xs">Ingrédients frais sélectionnés</div>
+        </div>
+        <div class="glass-light p-4 rounded-sm">
+          <div class="text-gold text-lg mb-1">⚑</div>
+          <div class="text-white text-sm font-semibold mb-1">Certifié HACCP</div>
+          <div class="text-white/45 text-xs">Normes sanitaires strictes</div>
+        </div>
+        <div class="glass-light p-4 rounded-sm">
+          <div class="text-gold text-lg mb-1">◈</div>
+          <div class="text-white text-sm font-semibold mb-1">Sur mesure</div>
+          <div class="text-white/45 text-xs">Menus personnalisés</div>
+        </div>
+        <div class="glass-light p-4 rounded-sm">
+          <div class="text-gold text-lg mb-1">⊕</div>
+          <div class="text-white text-sm font-semibold mb-1">Ponctualité</div>
+          <div class="text-white/45 text-xs">Livraison dans les délais</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Stats + Image -->
+    <div class="reveal-right">
+      <div class="relative">
+        <div class="rounded-sm overflow-hidden gold-border" style="height:420px;">
+          <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80&auto=format&fit=crop" alt="Chef Route66 Catering" class="w-full h-full object-cover" onerror="this.src='https://picsum.photos/seed/chef/800/420'"/>
+        </div>
+        <!-- Stats overlay -->
+        <div class="absolute -bottom-8 -left-6 glass p-6 rounded-sm shadow-2xl" style="min-width:200px;">
+          <div class="stat-number">500+</div>
+          <div class="text-white/60 text-sm">Événements réalisés</div>
+        </div>
+        <div class="absolute -top-6 -right-6 glass p-6 rounded-sm shadow-2xl" style="min-width:180px;">
+          <div class="stat-number">15+</div>
+          <div class="text-white/60 text-sm">Années d'expertise</div>
+        </div>
+      </div>
+      <!-- Stats bar -->
+      <div class="grid grid-cols-3 gap-4 mt-16">
+        <div class="text-center">
+          <div class="stat-number" style="font-size:2rem;">200+</div>
+          <div class="text-white/45 text-xs mt-1">Clients fidèles</div>
+        </div>
+        <div class="text-center border-x border-gold/20">
+          <div class="stat-number" style="font-size:2rem;">50k+</div>
+          <div class="text-white/45 text-xs mt-1">Repas servis/an</div>
+        </div>
+        <div class="text-center">
+          <div class="stat-number" style="font-size:2rem;">100%</div>
+          <div class="text-white/45 text-xs mt-1">Satisfaction</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGE STRIP -->
+<div class="w-full overflow-hidden flex" style="height:220px;">
+  <div class="flex-1 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500&q=80&auto=format&fit=crop" alt="Chef" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" onerror="this.src='https://picsum.photos/seed/strip1/500/220'"/>
+  </div>
+  <div class="flex-1 overflow-hidden">
+    <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=500&q=80&auto=format&fit=crop" alt="Buffet" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" onerror="this.src='https://picsum.photos/seed/strip2/500/220'"/>
+  </div>
+  <div class="flex-1 overflow-hidden hidden md:block">
+    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=80&auto=format&fit=crop" alt="Plats" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" onerror="this.src='https://picsum.photos/seed/strip3/500/220'"/>
+  </div>
+  <div class="flex-1 overflow-hidden hidden lg:block">
+    <img src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=500&q=80&auto=format&fit=crop" alt="Gala" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" onerror="this.src='https://picsum.photos/seed/strip4/500/220'"/>
+  </div>
+  <div class="flex-1 overflow-hidden hidden lg:block">
+    <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=500&q=80&auto=format&fit=crop" alt="Cocktail" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700" onerror="this.src='https://picsum.photos/seed/strip5/500/220'"/>
+  </div>
+</div>
+
+<!-- ========================= SERVICES ========================= -->
+<section id="services" class="py-28 relative" style="background:linear-gradient(180deg,var(--noir) 0%,var(--noir-soft) 50%,var(--noir) 100%);">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="text-center mb-16 reveal">
+      <div class="section-tag mb-4">✦ Ce que nous faisons</div>
+      <h2 class="section-title text-white mb-4">Nos <span class="gold-text">Services</span></h2>
+      <div class="gold-divider max-w-xs mx-auto"><div class="gold-divider-diamond"></div></div>
+      <p class="text-white/50 mt-6 max-w-xl mx-auto">Des solutions complètes de restauration adaptées à chaque besoin, chaque budget et chaque occasion.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Service 1 -->
+      <div class="service-card p-8 rounded-sm reveal" style="transition-delay:.1s">
+        <div class="service-icon mb-6">🍽️</div>
+        <h3 class="text-white font-semibold text-lg mb-3" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;">Restauration Collective</h3>
+        <p class="text-white/45 text-sm leading-relaxed mb-5">Gestion complète des restaurants d'entreprise, cantines et espaces de restauration institutionnels. Menus équilibrés, frais et adaptés.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-xs px-3 py-1 rounded-full border border-gold/20 text-gold/70">Entreprises</span>
+          <span class="text-xs px-3 py-1 rounded-full border border-gold/20 text-gold/70">Institutions</span>
+        </div>
+      </div>
+
+      <!-- Service 2 -->
+      <div class="service-card p-8 rounded-sm reveal" style="transition-delay:.2s">
+        <div class="service-icon mb-6">🥂</div>
+        <h3 class="text-white font-semibold text-lg mb-3" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;">Catering Événementiel</h3>
+        <p class="text-white/45 text-sm leading-relaxed mb-5">Cocktails dînatoires, galas, séminaires et mariages. Mise en scène culinaire haut de gamme pour des moments inoubliables.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-xs px-3 py-1 rounded-full border border-gold/20 text-gold/70">Galas</span>
+          <span class="text-xs px-3 py-1 rounded-full border border-gold/20 text-gold/70">Mariages</span>
+        </div>
+      </div>
+
+      <!-- Service 3 -->
+      <div class="service-card p-8 rounded-sm reveal" style="transition-delay:.3s">
+        <div class="service-icon mb-6">🏢</div>
+        <h3 class="text-white font-semibold text-lg mb-3" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;">Food Service Corporate</h3>
+        <p class="text-white/45 text-sm leading-relaxed mb-5">Pauses café, plateaux repas, buffets déjeuner et réceptions VIP pour vos meetings et conférences d'affaires.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-xs px-3 py-1 rounded-full border border-gold/20 text-gold/70">Meetings</span>
+          <span class="text-xs px-3 py-1 rounded-full border border-gold/20 text-gold/70">VIP</span>
+        </div>
+      </div>
+
+      <!-- Service 4 -->
+      <div class="service-card p-8 rounded-sm reveal" style="transition-delay:.4s">
+        <div class="service-icon mb-6">🚚</div>
+        <h3 class="text-white font-semibold text-lg mb-3" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;">Livraison & Logistique</h3>
+        <p class="text-white/45 text-sm leading-relaxed mb-5">Livraison réfrigérée et chaude, mise en place sur site, service à table et nettoyage inclus dans nos formules clé en main.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-xs px-3 py-1 rounded-full border border-gold/20 text-gold/70">Ponctuel</span>
+          <span class="text-xs px-3 py-1 rounded-full border border-gold/20 text-gold/70">Clé en main</span>
+        </div>
+      </div>
+
+      <!-- Service 5 -->
+      <div class="service-card p-8 rounded-sm reveal" style="transition-delay:.5s">
+        <div class="service-icon mb-6">🌿</div>
+        <h3 class="text-white font-semibold text-lg mb-3" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;">Menus Diététiques</h3>
+        <p class="text-white/45 text-sm leading-relaxed mb-5">Formules santé, végétariennes, halal certifié et régimes spéciaux. Nutrition équilibrée sans compromis sur la saveur.</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="text-xs px-3 py-1 rounded-full border border-gold/20 text-gold/70">Halal</span>
+          <span class="text-xs px-3 py-1 rounded-full border border-gold/20 text-gold/70">Végan</span>
+        </div>
+      </div>
+
+      <!-- Service 6 -->
+      <div class="service-card p-8 rounded-sm reveal" style="transition-delay:.6s;background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.04));border-color:rgba(201,168,76,.3);">
+        <div class="service-icon mb-6" style="background:linear-gradient(135deg,rgba(201,168,76,.3),rgba(201,168,76,.1));">⭐</div>
+        <h3 class="text-white font-semibold text-lg mb-3" style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;">Formule Premium</h3>
+        <p class="text-white/55 text-sm leading-relaxed mb-5">Service traiteur 5 étoiles avec chef personnel, maître d'hôtel, décoration de table et animation culinaire live.</p>
+        <a href="#devis" class="btn-gold px-5 py-2.5 text-xs rounded-sm inline-flex items-center gap-2">
+          <span>Demander un devis</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= MENUS ========================= -->
+<section id="menus" class="py-28">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="text-center mb-16 reveal">
+      <div class="section-tag mb-4">✦ Nos offres</div>
+      <h2 class="section-title text-white mb-4">Menus <span class="gold-text">Téléchargeables</span></h2>
+      <div class="gold-divider max-w-xs mx-auto"><div class="gold-divider-diamond"></div></div>
+      <p class="text-white/50 mt-6 max-w-lg mx-auto">Téléchargez nos catalogues PDF et découvrez l'ensemble de nos formules tarifaires.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Menu 1 -->
+      <div class="menu-card p-6 rounded-sm reveal group cursor-pointer" style="transition-delay:.1s" onclick="downloadMenu('menu-entreprise')">
+        <div class="w-12 h-12 rounded-sm flex items-center justify-center mb-5 text-2xl" style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);">📋</div>
+        <div class="text-xs text-gold/70 letter-spacing mb-2" style="letter-spacing:.15em;text-transform:uppercase;">Formule</div>
+        <h3 class="text-white font-semibold text-lg mb-3" style="font-family:'Cormorant Garamond',serif;">Menu Entreprise</h3>
+        <p class="text-white/40 text-sm mb-5">Restauration quotidienne, plateaux déjeuner, pauses café professionnelles.</p>
+        <div class="flex items-center gap-2 text-gold text-sm group-hover:gap-3 transition-all">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span style="font-size:.75rem;letter-spacing:.1em;">TÉLÉCHARGER PDF</span>
+        </div>
+      </div>
+
+      <!-- Menu 2 -->
+      <div class="menu-card p-6 rounded-sm reveal group cursor-pointer" style="transition-delay:.2s" onclick="downloadMenu('menu-evenement')">
+        <div class="w-12 h-12 rounded-sm flex items-center justify-center mb-5 text-2xl" style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);">🎊</div>
+        <div class="text-xs text-gold/70 mb-2" style="letter-spacing:.15em;text-transform:uppercase;">Formule</div>
+        <h3 class="text-white font-semibold text-lg mb-3" style="font-family:'Cormorant Garamond',serif;">Menu Événements</h3>
+        <p class="text-white/40 text-sm mb-5">Cocktails dînatoires, buffets galas et réceptions de prestige.</p>
+        <div class="flex items-center gap-2 text-gold text-sm group-hover:gap-3 transition-all">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span style="font-size:.75rem;letter-spacing:.1em;">TÉLÉCHARGER PDF</span>
+        </div>
+      </div>
+
+      <!-- Menu 3 -->
+      <div class="menu-card p-6 rounded-sm reveal group cursor-pointer" style="transition-delay:.3s" onclick="downloadMenu('menu-sante')">
+        <div class="w-12 h-12 rounded-sm flex items-center justify-center mb-5 text-2xl" style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);">🥗</div>
+        <div class="text-xs text-gold/70 mb-2" style="letter-spacing:.15em;text-transform:uppercase;">Formule</div>
+        <h3 class="text-white font-semibold text-lg mb-3" style="font-family:'Cormorant Garamond',serif;">Menu Santé</h3>
+        <p class="text-white/40 text-sm mb-5">Menus diététiques, végétariens, sans allergènes et régimes spéciaux.</p>
+        <div class="flex items-center gap-2 text-gold text-sm group-hover:gap-3 transition-all">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span style="font-size:.75rem;letter-spacing:.1em;">TÉLÉCHARGER PDF</span>
+        </div>
+      </div>
+
+      <!-- Menu 4 -->
+      <div class="menu-card p-6 rounded-sm reveal group cursor-pointer" style="transition-delay:.4s" onclick="downloadMenu('catalogue-general')">
+        <div class="w-12 h-12 rounded-sm flex items-center justify-center mb-5 text-2xl" style="background:linear-gradient(135deg,rgba(201,168,76,.25),rgba(201,168,76,.08));border:1px solid rgba(201,168,76,.4);">📗</div>
+        <div class="text-xs text-gold mb-2" style="letter-spacing:.15em;text-transform:uppercase;">Catalogue</div>
+        <h3 class="text-white font-semibold text-lg mb-3" style="font-family:'Cormorant Garamond',serif;">Catalogue Général</h3>
+        <p class="text-white/40 text-sm mb-5">L'intégralité de nos offres, tarifs et conditions générales de vente.</p>
+        <div class="flex items-center gap-2 text-gold text-sm group-hover:gap-3 transition-all">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span style="font-size:.75rem;letter-spacing:.1em;">TÉLÉCHARGER PDF</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Download notification -->
+    <div id="download-toast" class="fixed bottom-8 right-8 glass px-6 py-4 rounded-sm border border-gold/30 transform translate-y-20 opacity-0 transition-all duration-500 z-50">
+      <div class="flex items-center gap-3">
+        <div class="text-gold">✓</div>
+        <div>
+          <div class="text-white text-sm font-semibold">Téléchargement démarré</div>
+          <div class="text-white/40 text-xs">Votre menu PDF est en cours de téléchargement</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= GALERIE ========================= -->
+<section id="galerie" class="py-28" style="background:var(--noir-soft);">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="text-center mb-16 reveal">
+      <div class="section-tag mb-4">✦ Notre portfolio</div>
+      <h2 class="section-title text-white mb-4">Galerie de <span class="gold-text">Réalisations</span></h2>
+      <div class="gold-divider max-w-xs mx-auto"><div class="gold-divider-diamond"></div></div>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="flex flex-wrap gap-3 justify-center mb-10 reveal">
+      <button class="gallery-filter active px-5 py-2 text-sm rounded-full border border-gold/40 text-gold transition-all" data-filter="all">Tout</button>
+      <button class="gallery-filter px-5 py-2 text-sm rounded-full border border-white/10 text-white/50 hover:border-gold/40 hover:text-gold transition-all" data-filter="events">Événements</button>
+      <button class="gallery-filter px-5 py-2 text-sm rounded-full border border-white/10 text-white/50 hover:border-gold/40 hover:text-gold transition-all" data-filter="corporate">Corporate</button>
+      <button class="gallery-filter px-5 py-2 text-sm rounded-full border border-white/10 text-white/50 hover:border-gold/40 hover:text-gold transition-all" data-filter="buffet">Buffets</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3" id="gallery-grid">
+      <div class="gallery-item rounded-sm col-span-2 row-span-2 gold-border" style="height:380px;" data-cat="events" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1567521464027-f127ff144326?w=600&q=80&auto=format&fit=crop" alt="Gala Route66" onerror="this.src='https://picsum.photos/seed/gala/600/380'"/>
+        <div class="gallery-overlay"><span class="text-white text-sm font-semibold">Gala de prestige — Tunis 2024</span></div>
+      </div>
+      <div class="gallery-item rounded-sm gold-border" style="height:185px;" data-cat="buffet" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1555244162-803834f70033?w=400&q=80&auto=format&fit=crop" alt="Buffet" onerror="this.src='https://picsum.photos/seed/buffet/400/185'"/>
+        <div class="gallery-overlay"><span class="text-white text-xs">Buffet corporate</span></div>
+      </div>
+      <div class="gallery-item rounded-sm gold-border" style="height:185px;" data-cat="corporate" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80&auto=format&fit=crop" alt="Restaurant" onerror="this.src='https://picsum.photos/seed/resto/400/185'"/>
+        <div class="gallery-overlay"><span class="text-white text-xs">Service en salle</span></div>
+      </div>
+      <div class="gallery-item rounded-sm gold-border" style="height:185px;" data-cat="buffet" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80&auto=format&fit=crop" alt="Cuisine" onerror="this.src='https://picsum.photos/seed/cuisine/400/185'"/>
+        <div class="gallery-overlay"><span class="text-white text-xs">Cuisine gastronomique</span></div>
+      </div>
+      <div class="gallery-item rounded-sm gold-border" style="height:185px;" data-cat="events" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=400&q=80&auto=format&fit=crop" alt="Cocktail" onerror="this.src='https://picsum.photos/seed/cocktail/400/185'"/>
+        <div class="gallery-overlay"><span class="text-white text-xs">Cocktail dînatoire</span></div>
+      </div>
+      <div class="gallery-item rounded-sm gold-border col-span-2" style="height:220px;" data-cat="corporate" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=600&q=80&auto=format&fit=crop" alt="Séminaire" onerror="this.src='https://picsum.photos/seed/seminar/600/220'"/>
+        <div class="gallery-overlay"><span class="text-white text-sm font-semibold">Séminaire international — Sousse</span></div>
+      </div>
+      <div class="gallery-item rounded-sm gold-border" style="height:220px;" data-cat="buffet" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80&auto=format&fit=crop" alt="Plat" onerror="this.src='https://picsum.photos/seed/food/400/220'"/>
+        <div class="gallery-overlay"><span class="text-white text-xs">Plat signature</span></div>
+      </div>
+      <div class="gallery-item rounded-sm gold-border" style="height:220px;" data-cat="events" onclick="openLightbox(this)">
+        <img src="https://images.unsplash.com/photo-1510076685003-01ab2b65d78f?w=400&q=80&auto=format&fit=crop" alt="Mariage" onerror="this.src='https://picsum.photos/seed/wedding/400/220'"/>
+        <div class="gallery-overlay"><span class="text-white text-xs">Réception mariage</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+  <button class="absolute top-6 right-8 text-white/60 text-4xl hover:text-gold transition-colors">&times;</button>
+  <img id="lightbox-img" src="" alt=""/>
+</div>
+
+<!-- BANNER IMAGE CTA -->
+<div class="relative overflow-hidden" style="height:320px;">
+  <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1920&q=80&auto=format&fit=crop" alt="Route66 Catering événement" class="w-full h-full object-cover" style="filter:brightness(.45)" onerror="this.src='https://picsum.photos/seed/banner/1920/320'"/>
+  <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-5" style="background:linear-gradient(90deg,rgba(10,10,10,.6),rgba(201,168,76,.08),rgba(10,10,10,.6))">
+    <div class="section-tag mb-4">✦ Votre prochain événement</div>
+    <h2 class="section-title text-white mb-6" style="font-size:clamp(1.8rem,4vw,3rem);">Créons quelque chose <span class="gold-text">d'inoubliable</span></h2>
+    <a href="#devis" class="btn-gold px-8 py-4 text-sm rounded-sm inline-flex items-center gap-3">
+      <span>Obtenir mon devis gratuit</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</div>
+
+<!-- ========================= DEVIS ========================= -->
+<section id="devis" class="py-28">
+  <div class="max-w-5xl mx-auto px-5">
+    <div class="text-center mb-16 reveal">
+      <div class="section-tag mb-4">✦ Obtenez votre tarif</div>
+      <h2 class="section-title text-white mb-4">Demande de <span class="gold-text">Devis</span></h2>
+      <div class="gold-divider max-w-xs mx-auto"><div class="gold-divider-diamond"></div></div>
+      <p class="text-white/50 mt-6">Réponse garantie sous 24h par notre équipe commerciale.</p>
+    </div>
+
+    <div class="glass p-8 md:p-12 rounded-sm reveal">
+      <form id="devis-form" class="grid md:grid-cols-2 gap-6" onsubmit="submitForm(event,'devis')">
+        <div>
+          <label class="form-label">Nom complet *</label>
+          <input type="text" class="form-input w-full px-4 py-3 rounded-sm text-sm" placeholder="Votre nom" required/>
+        </div>
+        <div>
+          <label class="form-label">Entreprise / Organisation</label>
+          <input type="text" class="form-input w-full px-4 py-3 rounded-sm text-sm" placeholder="Nom de l'entreprise"/>
+        </div>
+        <div>
+          <label class="form-label">Email *</label>
+          <input type="email" class="form-input w-full px-4 py-3 rounded-sm text-sm" placeholder="votre@email.com" required/>
+        </div>
+        <div>
+          <label class="form-label">Téléphone *</label>
+          <input type="tel" class="form-input w-full px-4 py-3 rounded-sm text-sm" placeholder="+216 XX XXX XXX" required/>
+        </div>
+        <div>
+          <label class="form-label">Type de service *</label>
+          <select class="form-input w-full px-4 py-3 rounded-sm text-sm" required style="background:rgba(26,26,26,.8);">
+            <option value="" disabled selected>Sélectionner...</option>
+            <option>Restauration Collective</option>
+            <option>Catering Événementiel</option>
+            <option>Food Service Corporate</option>
+            <option>Formule Premium</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Nombre de couverts *</label>
+          <input type="number" class="form-input w-full px-4 py-3 rounded-sm text-sm" placeholder="Ex: 150" min="1" required/>
+        </div>
+        <div>
+          <label class="form-label">Date souhaitée</label>
+          <input type="date" class="form-input w-full px-4 py-3 rounded-sm text-sm"/>
+        </div>
+        <div>
+          <label class="form-label">Budget estimé</label>
+          <select class="form-input w-full px-4 py-3 rounded-sm text-sm" style="background:rgba(26,26,26,.8);">
+            <option value="" disabled selected>Fourchette...</option>
+            <option>Moins de 1 000 TND</option>
+            <option>1 000 – 5 000 TND</option>
+            <option>5 000 – 15 000 TND</option>
+            <option>Plus de 15 000 TND</option>
+            <option>À définir</option>
+          </select>
+        </div>
+        <div class="md:col-span-2">
+          <label class="form-label">Description de votre besoin *</label>
+          <textarea class="form-input w-full px-4 py-3 rounded-sm text-sm" rows="4" placeholder="Décrivez votre événement, vos besoins spécifiques, allergies alimentaires, lieu..." required></textarea>
+        </div>
+        <div class="md:col-span-2 flex justify-end">
+          <button type="submit" class="btn-gold px-10 py-4 text-sm rounded-sm inline-flex items-center gap-3">
+            <span>Envoyer ma demande</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </form>
+      <div id="devis-success" class="hidden text-center py-8">
+        <div class="text-4xl mb-4">✅</div>
+        <h3 class="text-white text-xl font-semibold mb-2" style="font-family:'Cormorant Garamond',serif;">Demande envoyée avec succès !</h3>
+        <p class="text-white/50">Notre équipe commerciale vous contactera dans les 24h.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= RESERVATION ========================= -->
+<section id="reservation" class="py-28" style="background:var(--noir-soft);">
+  <div class="max-w-5xl mx-auto px-5">
+    <div class="text-center mb-16 reveal">
+      <div class="section-tag mb-4">✦ Planifiez votre événement</div>
+      <h2 class="section-title text-white mb-4">Formulaire de <span class="gold-text">Réservation</span></h2>
+      <div class="gold-divider max-w-xs mx-auto"><div class="gold-divider-diamond"></div></div>
+    </div>
+
+    <div class="glass p-8 md:p-12 rounded-sm reveal">
+      <form id="resa-form" class="grid md:grid-cols-2 gap-6" onsubmit="submitForm(event,'resa')">
+        <div>
+          <label class="form-label">Nom & Prénom *</label>
+          <input type="text" class="form-input w-full px-4 py-3 rounded-sm text-sm" required placeholder="Votre identité"/>
+        </div>
+        <div>
+          <label class="form-label">Email *</label>
+          <input type="email" class="form-input w-full px-4 py-3 rounded-sm text-sm" required placeholder="contact@exemple.com"/>
+        </div>
+        <div>
+          <label class="form-label">Téléphone *</label>
+          <input type="tel" class="form-input w-full px-4 py-3 rounded-sm text-sm" required placeholder="+216 XX XXX XXX"/>
+        </div>
+        <div>
+          <label class="form-label">Type d'événement *</label>
+          <select class="form-input w-full px-4 py-3 rounded-sm text-sm" required style="background:rgba(26,26,26,.8);">
+            <option value="" disabled selected>Choisir...</option>
+            <option>Séminaire d'entreprise</option>
+            <option>Gala / Soirée de prestige</option>
+            <option>Mariage / Réception</option>
+            <option>Cocktail d'affaires</option>
+            <option>Inauguration</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Date de l'événement *</label>
+          <input type="date" class="form-input w-full px-4 py-3 rounded-sm text-sm" required/>
+        </div>
+        <div>
+          <label class="form-label">Heure de début</label>
+          <input type="time" class="form-input w-full px-4 py-3 rounded-sm text-sm"/>
+        </div>
+        <div>
+          <label class="form-label">Lieu de l'événement</label>
+          <input type="text" class="form-input w-full px-4 py-3 rounded-sm text-sm" placeholder="Adresse ou salle"/>
+        </div>
+        <div>
+          <label class="form-label">Nombre d'invités *</label>
+          <input type="number" class="form-input w-full px-4 py-3 rounded-sm text-sm" min="1" required placeholder="Nombre approximatif"/>
+        </div>
+        <div class="md:col-span-2">
+          <label class="form-label">Remarques et demandes spéciales</label>
+          <textarea class="form-input w-full px-4 py-3 rounded-sm text-sm" rows="3" placeholder="Ambiance souhaitée, préférences culinaires, décoration..."></textarea>
+        </div>
+        <div class="md:col-span-2 flex justify-end">
+          <button type="submit" class="btn-gold px-10 py-4 text-sm rounded-sm inline-flex items-center gap-3">
+            <span>Confirmer la réservation</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </div>
+      </form>
+      <div id="resa-success" class="hidden text-center py-8">
+        <div class="text-4xl mb-4">🎉</div>
+        <h3 class="text-white text-xl font-semibold mb-2" style="font-family:'Cormorant Garamond',serif;">Réservation enregistrée !</h3>
+        <p class="text-white/50">Nous vous confirmerons votre réservation sous 24h.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= TÉMOIGNAGES ========================= -->
+<section class="py-24" style="background:linear-gradient(180deg,var(--noir-soft),var(--noir));">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="text-center mb-14 reveal">
+      <div class="section-tag mb-4">✦ Ce qu'ils disent</div>
+      <h2 class="section-title text-white mb-4">Nos <span class="gold-text">Clients</span> témoignent</h2>
+      <div class="gold-divider max-w-xs mx-auto"><div class="gold-divider-diamond"></div></div>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="glass p-8 rounded-sm reveal" style="transition-delay:.1s">
+        <div class="flex gap-1 mb-4">⭐⭐⭐⭐⭐</div>
+        <p class="text-white/60 text-sm leading-relaxed mb-6 italic">"Route66 Catering a géré notre gala annuel avec une maîtrise parfaite. Les plats étaient raffinés, le service impeccable. Nos 300 invités étaient ravis."</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&q=80&auto=format&fit=crop&crop=face" alt="Client" class="w-10 h-10 rounded-full object-cover gold-border" onerror="this.src='https://picsum.photos/seed/client1/60/60'"/>
+          <div>
+            <div class="text-white text-sm font-semibold">Sarra Ben Ali</div>
+            <div class="text-gold/60 text-xs">DRH — Groupe Poulina</div>
+          </div>
+        </div>
+      </div>
+      <div class="glass p-8 rounded-sm reveal" style="transition-delay:.2s">
+        <div class="flex gap-1 mb-4">⭐⭐⭐⭐⭐</div>
+        <p class="text-white/60 text-sm leading-relaxed mb-6 italic">"Partenaire de notre restauration d'entreprise depuis 3 ans. Qualité constante, respect des délais et de l'hygiène. Je recommande vivement."</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&h=60&q=80&auto=format&fit=crop&crop=face" alt="Client" class="w-10 h-10 rounded-full object-cover gold-border" onerror="this.src='https://picsum.photos/seed/client2/60/60'"/>
+          <div>
+            <div class="text-white text-sm font-semibold">Mohamed Trabelsi</div>
+            <div class="text-gold/60 text-xs">Directeur Général — Telnet</div>
+          </div>
+        </div>
+      </div>
+      <div class="glass p-8 rounded-sm reveal" style="transition-delay:.3s">
+        <div class="flex gap-1 mb-4">⭐⭐⭐⭐⭐</div>
+        <p class="text-white/60 text-sm leading-relaxed mb-6 italic">"Un catering 5 étoiles pour notre mariage. L'équipe Route66 a su dépasser toutes nos attentes avec un buffet magnifique et un service d'une grande élégance."</p>
+        <div class="flex items-center gap-3">
+          <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&q=80&auto=format&fit=crop&crop=face" alt="Client" class="w-10 h-10 rounded-full object-cover gold-border" onerror="this.src='https://picsum.photos/seed/client3/60/60'"/>
+          <div>
+            <div class="text-white text-sm font-semibold">Amira Mansour</div>
+            <div class="text-gold/60 text-xs">Cliente particulière — Sfax</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= CONTACT ========================= -->
+<section id="contact" class="py-28">
+  <div class="max-w-7xl mx-auto px-5">
+    <div class="text-center mb-16 reveal">
+      <div class="section-tag mb-4">✦ Parlons-nous</div>
+      <h2 class="section-title text-white mb-4">Nous <span class="gold-text">Contacter</span></h2>
+      <div class="gold-divider max-w-xs mx-auto"><div class="gold-divider-diamond"></div></div>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-8 mb-12">
+      <!-- Info cards -->
+      <div class="glass p-8 rounded-sm text-center reveal" style="transition-delay:.1s">
+        <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5 text-xl" style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);">📞</div>
+        <div class="section-tag mb-2">Téléphone</div>
+        <a href="tel:+21671000000" class="text-white/80 text-sm hover:text-gold transition-colors block">+216 71 000 000</a>
+        <a href="tel:+21620000000" class="text-white/80 text-sm hover:text-gold transition-colors block">+216 20 000 000</a>
+      </div>
+
+      <div class="glass p-8 rounded-sm text-center reveal" style="transition-delay:.2s">
+        <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5 text-xl" style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);">✉️</div>
+        <div class="section-tag mb-2">Email</div>
+        <a href="mailto:contact@route66catering.tn" class="text-white/80 text-sm hover:text-gold transition-colors block">contact@route66catering.tn</a>
+        <a href="mailto:devis@route66catering.tn" class="text-white/80 text-sm hover:text-gold transition-colors block">devis@route66catering.tn</a>
+      </div>
+
+      <div class="glass p-8 rounded-sm text-center reveal" style="transition-delay:.3s">
+        <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5 text-xl" style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);">📍</div>
+        <div class="section-tag mb-2">Adresse</div>
+        <p class="text-white/80 text-sm">Zone Industrielle La Charguia,</p>
+        <p class="text-white/80 text-sm">Tunis 2035, Tunisie</p>
+      </div>
+    </div>
+
+    <!-- Map -->
+    <div class="reveal rounded-sm overflow-hidden gold-border" style="height:400px;">
+      <iframe
+        class="map-frame w-full h-full"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d102067.00788165882!2d10.011821!3d36.806!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fd337f5e7ef543%3A0xd671924e714a0275!2sTunis!5e0!3m2!1sfr!2stn!4v1"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="Route66 Catering — Localisation Tunis">
+      </iframe>
+    </div>
+
+    <!-- Social -->
+    <div class="flex justify-center gap-4 mt-10">
+      <a href="#" class="w-10 h-10 rounded-full gold-border flex items-center justify-center text-sm hover:bg-gold hover:text-black transition-all">f</a>
+      <a href="#" class="w-10 h-10 rounded-full gold-border flex items-center justify-center text-sm hover:bg-gold hover:text-black transition-all">in</a>
+      <a href="#" class="w-10 h-10 rounded-full gold-border flex items-center justify-center text-sm hover:bg-gold hover:text-black transition-all">ig</a>
+      <a href="#" class="w-10 h-10 rounded-full gold-border flex items-center justify-center text-sm hover:bg-gold hover:text-black transition-all">yt</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========================= FOOTER ========================= -->
+<footer class="py-16">
+  <div class="max-w-7xl mx-auto px-5">
+    <!-- Top footer -->
+    <div class="grid md:grid-cols-4 gap-10 pb-12 border-b border-gold/10">
+      <!-- Brand -->
+      <div class="md:col-span-2">
+        <div class="nav-logo gold-text text-2xl mb-4">ROUTE<span style="font-weight:700">66</span> <span style="font-size:1rem;font-family:'Outfit',sans-serif;font-weight:300;color:rgba(201,168,76,.6)">CATERING</span></div>
+        <p class="text-white/40 text-sm leading-relaxed mb-6 max-w-sm">
+          Solutions de restauration professionnelle, catering et food service haut de gamme en Tunisie. Excellence, hygiène et satisfaction garanties.
+        </p>
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs" style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);">✓</div>
+          <span class="text-white/40 text-xs">Certifié HACCP &amp; ISO 22000</span>
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div>
+        <div class="section-tag mb-5">Navigation</div>
+        <ul class="space-y-3">
+          <li><a href="#about" class="footer-link text-sm">À propos</a></li>
+          <li><a href="#services" class="footer-link text-sm">Nos services</a></li>
+          <li><a href="#menus" class="footer-link text-sm">Menus PDF</a></li>
+          <li><a href="#galerie" class="footer-link text-sm">Galerie</a></li>
+          <li><a href="#devis" class="footer-link text-sm">Demande de devis</a></li>
+          <li><a href="#contact" class="footer-link text-sm">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <div class="section-tag mb-5">Services</div>
+        <ul class="space-y-3">
+          <li><span class="footer-link text-sm cursor-default">Restauration Collective</span></li>
+          <li><span class="footer-link text-sm cursor-default">Catering Événementiel</span></li>
+          <li><span class="footer-link text-sm cursor-default">Food Service Corporate</span></li>
+          <li><span class="footer-link text-sm cursor-default">Menus Diététiques</span></li>
+          <li><span class="footer-link text-sm cursor-default">Formule Premium</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom footer -->
+    <div class="pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-white/25 text-xs">© 2024 Route66 Catering — Tous droits réservés. Tunis, Tunisie.</p>
+      <div class="flex gap-6">
+        <a href="#" class="text-white/25 text-xs hover:text-gold/60 transition-colors">Mentions légales</a>
+        <a href="#" class="text-white/25 text-xs hover:text-gold/60 transition-colors">Politique de confidentialité</a>
+        <a href="#" class="text-white/25 text-xs hover:text-gold/60 transition-colors">CGV</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-8 left-8 w-10 h-10 rounded-full btn-gold opacity-0 transition-opacity duration-300 flex items-center justify-center shadow-lg z-50" style="font-size:16px;">↑</button>
+
+<script>
+// ==================== LOADER ====================
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hide');
+  }, 2400);
+});
+
+// ==================== NAVBAR ====================
+const navbar = document.getElementById('navbar');
+const backTop = document.getElementById('back-top');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+  backTop.style.opacity = window.scrollY > 400 ? '1' : '0';
+});
+
+// ==================== MOBILE MENU ====================
+const toggle = document.getElementById('menu-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+toggle.addEventListener('click', () => {
+  mobileMenu.classList.toggle('open');
+});
+document.querySelectorAll('#mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+});
+
+// ==================== SCROLL REVEAL ====================
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => observer.observe(el));
+
+// ==================== GALLERY FILTER ====================
+document.querySelectorAll('.gallery-filter').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.gallery-filter').forEach(b => {
+      b.classList.remove('active','border-gold/40','text-gold');
+      b.classList.add('border-white/10','text-white/50');
+    });
+    btn.classList.add('active','border-gold/40','text-gold');
+    btn.classList.remove('border-white/10','text-white/50');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('#gallery-grid .gallery-item').forEach(item => {
+      const cat = item.dataset.cat;
+      item.style.opacity = (filter === 'all' || cat === filter) ? '1' : '0.2';
+      item.style.transform = (filter === 'all' || cat === filter) ? '' : 'scale(0.97)';
+    });
+  });
+});
+
+// ==================== LIGHTBOX ====================
+function openLightbox(el) {
+  const img = el.querySelector('img');
+  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
+
+// ==================== MENU DOWNLOAD ====================
+function downloadMenu(name) {
+  // Show toast
+  const toast = document.getElementById('download-toast');
+  toast.style.transform = 'translateY(0)';
+  toast.style.opacity = '1';
+  setTimeout(() => {
+    toast.style.transform = 'translateY(80px)';
+    toast.style.opacity = '0';
+  }, 3000);
+  // In production: window.open('/menus/' + name + '.pdf');
+}
+
+// ==================== FORM SUBMIT ====================
+function submitForm(e, type) {
+  e.preventDefault();
+  const form = e.target;
+  const success = document.getElementById(type + '-success');
+  form.style.opacity = '0';
+  form.style.pointerEvents = 'none';
+  setTimeout(() => {
+    form.classList.add('hidden');
+    success.classList.remove('hidden');
+    success.style.animation = 'fadeIn .5s ease';
+  }, 400);
+}
+
+// ==================== PARTICLES ====================
+(function createParticles() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    const size = Math.random() * 3 + 1;
+    p.style.cssText = `
+      position:absolute;
+      width:${size}px;height:${size}px;
+      background:rgba(201,168,76,${Math.random()*.4+.1});
+      border-radius:50%;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      animation:float ${3+Math.random()*5}s ease-in-out ${Math.random()*5}s infinite;
+    `;
+    container.appendChild(p);
+  }
+})();
+
+// ==================== PARALLAX ====================
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const hero = document.querySelector('.hero-bg');
+  if (hero) {
+    hero.style.backgroundPositionY = `calc(50% + ${scrolled * 0.3}px)`;
+  }
+});
+
+// ==================== SMOOTH NAV SCROLL ====================
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const id = a.getAttribute('href');
+    if (id === '#') return;
+    const target = document.querySelector(id);
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>

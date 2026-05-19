@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ROUTE 66 – Fast Food & Plus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --yellow: #FFD000;
+    --yellow-dark: #e6bc00;
+    --yellow-glow: rgba(255, 208, 0, 0.15);
+    --white: #f5f5f0;
+    --gray: #1a1a1a;
+    --gray-mid: #2a2a2a;
+    --gray-light: #444;
+    --red: #d62828;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    height: 72px;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,208,0,0.12);
+    transition: background 0.3s;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-shield {
+    width: 44px;
+    height: 52px;
+    flex-shrink: 0;
+  }
+
+  .logo-text {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 1.5rem;
+    color: var(--yellow);
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .logo-text span {
+    display: block;
+    font-size: 0.55rem;
+    color: var(--white);
+    letter-spacing: 0.3em;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--yellow); }
+
+  .nav-cta {
+    background: var(--yellow);
+    color: var(--black) !important;
+    padding: 8px 20px;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.15s !important;
+  }
+
+  .nav-cta:hover { background: var(--yellow-dark) !important; transform: translateY(-1px); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--yellow);
+    transition: all 0.3s;
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 120px 5% 80px;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 70% 50%, rgba(255,208,0,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 80% at 20% 80%, rgba(214,40,40,0.06) 0%, transparent 60%),
+      linear-gradient(160deg, #0f0f0f 0%, #0a0a0a 100%);
+  }
+
+  /* Road stripes */
+  .road-stripe {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: repeating-linear-gradient(90deg, var(--yellow) 0, var(--yellow) 60px, transparent 60px, transparent 100px);
+    opacity: 0.4;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1300px;
+    margin: 0 auto;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    margin-bottom: 1.5rem;
+    animation: slideDown 0.6s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: clamp(4rem, 9vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    animation: slideUp 0.7s ease 0.1s both;
+  }
+
+  .hero-title .route { color: var(--white); }
+  .hero-title .number {
+    color: var(--yellow);
+    display: block;
+    -webkit-text-stroke: 2px var(--yellow);
+    text-shadow: 0 0 60px rgba(255,208,0,0.4);
+  }
+
+  .hero-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    font-weight: 400;
+    color: rgba(245,245,240,0.65);
+    margin: 1.5rem 0 2.5rem;
+    letter-spacing: 0.04em;
+    animation: slideUp 0.7s ease 0.2s both;
+  }
+
+  .hero-tag strong { color: var(--yellow); font-weight: 700; }
+
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: slideUp 0.7s ease 0.3s both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--yellow);
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 14px 28px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .btn-primary:hover {
+    background: var(--yellow-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(255,208,0,0.3);
+  }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 13px 28px;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    cursor: pointer;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  }
+
+  .btn-outline:hover {
+    border-color: var(--yellow);
+    color: var(--yellow);
+    transform: translateY(-2px);
+  }
+
+  .hero-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1s ease 0.4s both;
+  }
+
+  .hero-plate {
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 1;
+    background: radial-gradient(circle at 40% 35%, #2a2a2a 0%, #111 70%);
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+      0 0 0 1px rgba(255,208,0,0.15),
+      0 0 80px rgba(255,208,0,0.08),
+      inset 0 2px 0 rgba(255,255,255,0.05);
+  }
+
+  .hero-plate-inner {
+    font-size: clamp(6rem, 12vw, 11rem);
+    line-height: 1;
+    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.8));
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .hero-stat-ring {
+    position: absolute;
+    inset: -20px;
+    border: 1px dashed rgba(255,208,0,0.2);
+    border-radius: 50%;
+    animation: spin 30s linear infinite;
+  }
+
+  .hero-stat {
+    position: absolute;
+    background: var(--gray);
+    border: 1px solid rgba(255,208,0,0.2);
+    padding: 10px 16px;
+    border-radius: 4px;
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+
+  .hero-stat .num {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--yellow);
+    display: block;
+    line-height: 1;
+  }
+
+  .hero-stat .label {
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(245,245,240,0.5);
+  }
+
+  .hero-stat:nth-child(2) { top: 8%; right: -5%; }
+  .hero-stat:nth-child(3) { bottom: 20%; left: -8%; }
+  .hero-stat:nth-child(4) { bottom: 5%; right: 5%; }
+
+  /* ─── SECTION COMMONS ─── */
+  section { padding: 100px 5%; }
+
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    margin-bottom: 1rem;
+  }
+
+  .section-title em {
+    font-style: normal;
+    color: var(--yellow);
+  }
+
+  .section-sub {
+    font-size: 1.05rem;
+    color: rgba(245,245,240,0.55);
+    max-width: 500px;
+    line-height: 1.7;
+  }
+
+  .max-w {
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  /* ─── MENU ─── */
+  #menu { background: var(--gray); }
+
+  .menu-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .menu-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+  }
+
+  .menu-tab {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 22px;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: rgba(245,245,240,0.6);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+
+  .menu-tab.active, .menu-tab:hover {
+    background: var(--yellow);
+    color: var(--black);
+    border-color: var(--yellow);
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .menu-card {
+    background: var(--black);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.3s;
+    cursor: pointer;
+    display: none;
+  }
+
+  .menu-card.visible { display: block; }
+
+  .menu-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,208,0,0.3);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,208,0,0.1);
+  }
+
+  .card-img {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    background: linear-gradient(135deg, #1a1a1a, #111);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.4));
+  }
+
+  .card-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--red);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    z-index: 1;
+  }
+
+  .card-body {
+    padding: 1.25rem;
+  }
+
+  .card-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+
+  .card-desc {
+    font-size: 0.85rem;
+    color: rgba(245,245,240,0.5);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .card-price {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.4rem;
+    color: var(--yellow);
+  }
+
+  .card-add {
+    width: 32px;
+    height: 32px;
+    background: var(--yellow);
+    color: var(--black);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-weight: 700;
+  }
+
+  .card-add:hover { background: var(--yellow-dark); transform: scale(1.1); }
+
+  /* ─── DELIVERY ─── */
+  #delivery {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255,208,0,0.06) 0%, transparent 60%),
+      var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .delivery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .steps {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .step {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    position: relative;
+  }
+
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 44px;
+    width: 2px;
+    height: calc(100% - 20px);
+    background: linear-gradient(to bottom, var(--yellow), rgba(255,208,0,0.1));
+  }
+
+  .step-num {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    background: var(--yellow);
+    color: var(--black);
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-content { padding-bottom: 2.5rem; }
+  .step-content h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.04em;
+    color: var(--white);
+    margin-bottom: 0.3rem;
+  }
+
+  .step-content p {
+    font-size: 0.9rem;
+    color: rgba(245,245,240,0.5);
+    line-height: 1.6;
+  }
+
+  .delivery-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .delivery-card-main {
+    background: var(--gray);
+    border: 1px solid rgba(255,208,0,0.15);
+    border-radius: 12px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 380px;
+    position: relative;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  }
+
+  .delivery-icon-big {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    display: block;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .delivery-card-main h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--yellow);
+  }
+
+  .delivery-card-main p {
+    font-size: 0.9rem;
+    color: rgba(245,245,240,0.6);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .delivery-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .delivery-meta-item { text-align: center; }
+  .delivery-meta-item .val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.6rem;
+    color: var(--yellow);
+    display: block;
+  }
+
+  .delivery-meta-item .key {
+    font-size: 0.7rem;
+    color: rgba(245,245,240,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .delivery-float {
+    position: absolute;
+    background: var(--gray-mid);
+    border: 1px solid rgba(255,208,0,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+
+  .delivery-float .emoji { margin-right: 6px; }
+  .df-1 { top: -20px; right: -30px; }
+  .df-2 { bottom: 30px; left: -30px; }
+
+  /* ─── RESERVATION ─── */
+  #reservation {
+    background: var(--gray);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #reservation::before {
+    content: '66';
+    position: absolute;
+    right: -2%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 30vw;
+    color: rgba(255,208,0,0.03);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .reservation-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group.full { grid-column: 1 / -1; }
+
+  .form-group label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,245,240,0.5);
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--white);
+    font-family: 'Barlow', sans-serif;
+    font-size: 0.95rem;
+    padding: 12px 16px;
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    width: 100%;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: var(--yellow);
+    background: rgba(255,208,0,0.04);
+  }
+
+  .form-group select option { background: #1a1a1a; }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: rgba(245,245,240,0.2); }
+
+  .form-submit { margin-top: 1.5rem; width: 100%; text-align: center; }
+
+  .res-perks {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .perk {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.95rem;
+    color: rgba(245,245,240,0.65);
+  }
+
+  .perk-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--yellow-glow);
+    border: 1px solid rgba(255,208,0,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  /* ─── LOCATIONS ─── */
+  #locations { background: var(--black); }
+
+  .locations-header { margin-bottom: 3.5rem; }
+
+  .locations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .location-card {
+    background: var(--gray);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: all 0.3s;
+    position: relative;
+  }
+
+  .location-card:hover {
+    border-color: rgba(255,208,0,0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+
+  .location-number {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 3.5rem;
+    color: rgba(255,208,0,0.07);
+    line-height: 1;
+    user-select: none;
+  }
+
+  .location-top {
+    background: linear-gradient(135deg, #1a1a1a, #111);
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255,208,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .loc-icon {
+    width: 44px;
+    height: 44px;
+    background: var(--yellow);
+    color: var(--black);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .loc-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    color: var(--yellow);
+  }
+
+  .loc-branch {
+    font-size: 0.75rem;
+    color: rgba(245,245,240,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .location-body { padding: 1.5rem; }
+
+  .loc-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .loc-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    font-size: 0.88rem;
+    color: rgba(245,245,240,0.65);
+    line-height: 1.5;
+  }
+
+  .loc-row .icon {
+    color: var(--yellow);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .loc-status {
+    display: inline-block;
+    background: rgba(46,204,64,0.15);
+    color: #2ecc40;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-top: 0.5rem;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #050505;
+    border-top: 1px solid rgba(255,208,0,0.1);
+    padding: 60px 5% 30px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 3rem;
+    max-width: 1300px;
+    margin: 0 auto 3rem;
+  }
+
+  .footer-brand p {
+    font-size: 0.9rem;
+    color: rgba(245,245,240,0.45);
+    line-height: 1.7;
+    margin: 1rem 0 1.5rem;
+    max-width: 260px;
+  }
+
+  .social-links {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .social-link {
+    width: 36px;
+    height: 36px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: all 0.2s;
+    color: var(--white);
+  }
+
+  .social-link:hover {
+    border-color: var(--yellow);
+    background: var(--yellow-glow);
+    transform: translateY(-2px);
+  }
+
+  .footer-col h4 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 1.2rem;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .footer-col ul li a {
+    text-decoration: none;
+    color: rgba(245,245,240,0.45);
+    font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+
+  .footer-col ul li a:hover { color: var(--yellow); }
+
+  .footer-col .contact-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-start;
+    font-size: 0.88rem;
+    color: rgba(245,245,240,0.45);
+    margin-bottom: 0.6rem;
+    line-height: 1.5;
+  }
+
+  .footer-bottom {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.82rem;
+    color: rgba(245,245,240,0.25);
+  }
+
+  .footer-bottom a {
+    color: rgba(245,245,240,0.35);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-bottom a:hover { color: var(--yellow); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 900px) {
+    .hero-grid { grid-template-columns: 1fr; text-align: center; }
+    .hero-title .number { display: inline; }
+    .hero-buttons { justify-content: center; }
+    .hero-visual { margin-top: 2rem; }
+    .hero-plate { max-width: 280px; }
+    .hero-stat:nth-child(3) { left: 0; }
+    .hero-stat:nth-child(2) { right: 0; }
+    .delivery-grid { grid-template-columns: 1fr; }
+    .reservation-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    #about .max-w > div:first-child { grid-template-columns: 1fr !important; gap: 2rem !important; }
+    nav.open .nav-links {
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 72px; left: 0; right: 0;
+      background: rgba(10,10,10,0.98);
+      backdrop-filter: blur(20px);
+      padding: 2rem 5%;
+      border-bottom: 1px solid rgba(255,208,0,0.1);
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    section { padding: 70px 5%; }
+    .form-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .locations-grid { grid-template-columns: 1fr; }
+    .delivery-float { display: none; }
+  }
+
+  /* ─── SCROLL INDICATOR ─── */
+  .scroll-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--yellow);
+    z-index: 9998;
+    transition: width 0.1s;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--yellow);
+    color: var(--black);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    padding: 14px 22px;
+    border-radius: 4px;
+    z-index: 9997;
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+    pointer-events: none;
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="toast" id="toast">✓ Réservation confirmée ! À très bientôt.</div>
+
+<!-- ─── NAV ─── -->
+<nav id="navbar">
+  <a href="#" class="logo">
+    <svg class="logo-shield" viewBox="0 0 44 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22 2L40 10V28C40 38.5 32 46.5 22 50C12 46.5 4 38.5 4 28V10L22 2Z" fill="#FFD000" stroke="#FFD000" stroke-width="1"/>
+      <path d="M22 6L36 13V28C36 36.5 30 43 22 46C14 43 8 36.5 8 28V13L22 6Z" fill="#0a0a0a"/>
+      <text x="22" y="32" font-family="'Black Han Sans', sans-serif" font-size="13" fill="#FFD000" text-anchor="middle" dominant-baseline="auto">66</text>
+      <path d="M14 20H30M14 24H30" stroke="#FFD000" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+    <div class="logo-text">ROUTE 66<span>Cuisine Américaine</span></div>
+  </a>
+
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">À Propos</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#delivery">Livraison</a></li>
+    <li><a href="#reservation">Réserver</a></li>
+    <li><a href="#locations">Adresses</a></li>
+    <li><a href="#reservation" class="nav-cta">Commander</a></li>
+  </ul>
+
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="road-stripe"></div>
+
+  <div class="hero-grid">
+    <div class="hero-content">
+      <div class="hero-badge">🇹🇳 Référence de la restauration rapide en Tunisie</div>
+      <h1 class="hero-title">
+        <span class="route">ROUTE</span>
+        <span class="number">66</span>
+      </h1>
+      <p class="hero-tag">Saveur, Fraîcheur & Rapidité –<br><strong>Sur Place, À Emporter ou Livré</strong></p>
+      <div class="hero-buttons">
+        <a href="#menu" class="btn-primary">🍔 Commander</a>
+        <a href="#reservation" class="btn-outline">📅 Réserver une Table</a>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-plate">
+        <div class="hero-stat-ring"></div>
+        <div class="hero-plate-inner">🍔</div>
+        <div class="hero-stat">
+          <span class="num">4.9★</span>
+          <span class="label">Satisfaction</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num">6</span>
+          <span class="label">Adresses</span>
+        </div>
+        <div class="hero-stat">
+          <span class="num">100%</span>
+          <span class="label">Frais</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── ABOUT ─── -->
+<section id="about" style="background: var(--gray); padding: 90px 5%;">
+  <div class="max-w">
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center;">
+      <div class="reveal">
+        <p class="section-label">Qui Sommes-Nous</p>
+        <h2 class="section-title">Une <em>Référence</em><br>de la Restauration</h2>
+      </div>
+      <div class="reveal" style="display:flex; flex-direction:column; gap:1.2rem;">
+        <p style="font-size:1.05rem; color:rgba(245,245,240,0.75); line-height:1.8;">
+          Depuis plusieurs années, <strong style="color:var(--yellow)">Route 66</strong> s'impose comme une référence de la restauration rapide moderne en Tunisie. L'enseigne se distingue par une offre généreuse, un service rapide et une attention particulière portée à la qualité des produits et à la satisfaction de la clientèle.
+        </p>
+        <p style="font-size:1.05rem; color:rgba(245,245,240,0.75); line-height:1.8;">
+          Grâce à son savoir-faire et à une organisation efficace, Route 66 propose une expérience culinaire conviviale dans un cadre moderne et chaleureux. Les recettes sont préparées avec soin à partir d'ingrédients sélectionnés afin de garantir fraîcheur, goût et régularité de qualité.
+        </p>
+        <p style="font-size:1.05rem; color:rgba(245,245,240,0.75); line-height:1.8;">
+          Que ce soit pour une consommation <strong style="color:var(--white)">sur place</strong>, <strong style="color:var(--white)">à emporter</strong> ou en <strong style="color:var(--white)">livraison</strong>, Route 66 veille à offrir un service fiable, rapide et adapté aux attentes de sa clientèle.
+        </p>
+      </div>
+    </div>
+
+    <!-- Pillars -->
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.5rem; margin-top:4rem;">
+      <div class="reveal" style="background:var(--black); border:1px solid rgba(255,208,0,0.12); border-radius:6px; padding:1.8rem; text-align:center;">
+        <div style="font-size:2.2rem; margin-bottom:0.8rem;">🥗</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:1.1rem; color:var(--yellow); margin-bottom:0.4rem; letter-spacing:0.04em;">Ingrédients Sélectionnés</div>
+        <div style="font-size:0.85rem; color:rgba(245,245,240,0.5); line-height:1.6;">Des produits choisis avec soin pour garantir fraîcheur et goût à chaque plat.</div>
+      </div>
+      <div class="reveal" style="background:var(--black); border:1px solid rgba(255,208,0,0.12); border-radius:6px; padding:1.8rem; text-align:center;">
+        <div style="font-size:2.2rem; margin-bottom:0.8rem;">⚡</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:1.1rem; color:var(--yellow); margin-bottom:0.4rem; letter-spacing:0.04em;">Service Rapide</div>
+        <div style="font-size:0.85rem; color:rgba(245,245,240,0.5); line-height:1.6;">Une organisation efficace pour servir rapidement, sans jamais sacrifier la qualité.</div>
+      </div>
+      <div class="reveal" style="background:var(--black); border:1px solid rgba(255,208,0,0.12); border-radius:6px; padding:1.8rem; text-align:center;">
+        <div style="font-size:2.2rem; margin-bottom:0.8rem;">🏠</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:1.1rem; color:var(--yellow); margin-bottom:0.4rem; letter-spacing:0.04em;">Cadre Chaleureux</div>
+        <div style="font-size:0.85rem; color:rgba(245,245,240,0.5); line-height:1.6;">Un espace moderne et convivial pensé pour votre confort et votre bien-être.</div>
+      </div>
+      <div class="reveal" style="background:var(--black); border:1px solid rgba(255,208,0,0.12); border-radius:6px; padding:1.8rem; text-align:center;">
+        <div style="font-size:2.2rem; margin-bottom:0.8rem;">📍</div>
+        <div style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:1.1rem; color:var(--yellow); margin-bottom:0.4rem; letter-spacing:0.04em;">6 Adresses en Tunisie</div>
+        <div style="font-size:0.85rem; color:rgba(245,245,240,0.5); line-height:1.6;">Proches de vous à Tunis, Ben Arous, Mégrine, Bardo et partout où vous êtes.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MENU ─── -->
+<section id="menu">
+  <div class="max-w">
+    <div class="menu-header">
+      <div>
+        <p class="section-label">Ce Que Nous Servons</p>
+        <h2 class="section-title">Notre <em>Menu</em></h2>
+        <p class="section-sub">Des recettes préparées avec soin, des ingrédients sélectionnés — fraîcheur et goût garantis à chaque commande.</p>
+      </div>
+    </div>
+
+    <div class="menu-tabs">
+      <button class="menu-tab active" data-cat="all">Tout</button>
+      <button class="menu-tab" data-cat="burgers">🍔 Burgers</button>
+      <button class="menu-tab" data-cat="fastfood">🍟 Fast Food</button>
+      <button class="menu-tab" data-cat="meals">🍽️ Plats</button>
+      <button class="menu-tab" data-cat="drinks">🥤 Boissons</button>
+    </div>
+
+    <div class="menu-grid" id="menuGrid">
+      <!-- Burgers -->
+      <div class="menu-card visible" data-cat="burgers">
+        <div class="card-img">🍔<div class="card-badge">Best Seller</div></div>
+        <div class="card-body">
+          <div class="card-name">Burger Classique Route</div>
+          <div class="card-desc">Double smash patty, cheddar, cornichons, sauce maison Route sur un bun brioché.</div>
+          <div class="card-footer"><span class="card-price">8.900 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+      <div class="menu-card visible" data-cat="burgers">
+        <div class="card-img">🥩</div>
+        <div class="card-body">
+          <div class="card-name">BBQ Smokehouse</div>
+          <div class="card-desc">Steak de bœuf, bacon croustillant, sauce BBQ, oignons caramélisés et gouda fumé.</div>
+          <div class="card-footer"><span class="card-price">10.500 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+      <div class="menu-card visible" data-cat="burgers">
+        <div class="card-img">🌶️<div class="card-badge">Épicé</div></div>
+        <div class="card-body">
+          <div class="card-name">Burger Inferno</div>
+          <div class="card-desc">Steak jalapeño, mayo piment fantôme, coleslaw habanero, cheese pepper jack.</div>
+          <div class="card-footer"><span class="card-price">11.200 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+      <div class="menu-card visible" data-cat="burgers">
+        <div class="card-img">🧀</div>
+        <div class="card-body">
+          <div class="card-name">Triple Cheese Stack</div>
+          <div class="card-desc">Trois steaks, triple fromage fondu, laitue, tomate et moutarde.</div>
+          <div class="card-footer"><span class="card-price">13.900 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+
+      <!-- Fast Food -->
+      <div class="menu-card visible" data-cat="fastfood">
+        <div class="card-img">🍟<div class="card-badge">Populaire</div></div>
+        <div class="card-body">
+          <div class="card-name">Frites Route – Grande</div>
+          <div class="card-desc">Frites croustillantes assaisonnées avec la sauce trempette Route 66.</div>
+          <div class="card-footer"><span class="card-price">4.500 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+      <div class="menu-card visible" data-cat="fastfood">
+        <div class="card-img">🌮</div>
+        <div class="card-body">
+          <div class="card-name">Wrap Poulet Croustillant</div>
+          <div class="card-desc">Lanières de poulet frit, laitue fraîche, tomate, sauce ranch dans une tortilla chaude.</div>
+          <div class="card-footer"><span class="card-price">7.900 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+      <div class="menu-card visible" data-cat="fastfood">
+        <div class="card-img">🌭</div>
+        <div class="card-body">
+          <div class="card-name">Hot Dog Royale</div>
+          <div class="card-desc">Saucisse de bœuf, oignons frits, moutarde, ketchup, relish et chili par-dessus.</div>
+          <div class="card-footer"><span class="card-price">5.900 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+      <div class="menu-card visible" data-cat="fastfood">
+        <div class="card-img">🍗</div>
+        <div class="card-body">
+          <div class="card-name">Nuggets de Poulet x10</div>
+          <div class="card-desc">Nuggets dorés frits avec sauce BBQ, miel-moutarde ou buffalo au choix.</div>
+          <div class="card-footer"><span class="card-price">6.500 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+
+      <!-- Meals -->
+      <div class="menu-card visible" data-cat="meals">
+        <div class="card-img">🥩<div class="card-badge">Choix du Chef</div></div>
+        <div class="card-body">
+          <div class="card-name">Plateau Bœuf Grillé</div>
+          <div class="card-desc">250g de faux-filet grillé, riz assaisonné, légumes grillés, pain à l'ail.</div>
+          <div class="card-footer"><span class="card-price">19.900 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+      <div class="menu-card visible" data-cat="meals">
+        <div class="card-img">🍗</div>
+        <div class="card-body">
+          <div class="card-name">Demi-Poulet Rôti</div>
+          <div class="card-desc">Demi-poulet rôti lentement avec frites, coleslaw et sauce maison.</div>
+          <div class="card-footer"><span class="card-price">15.500 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+      <div class="menu-card visible" data-cat="meals">
+        <div class="card-img">🍝</div>
+        <div class="card-body">
+          <div class="card-name">Pasta Mac & Bœuf</div>
+          <div class="card-desc">Penne al dente, ragù de bœuf haché, crème parmesan, herbes fraîches, miettes grillées.</div>
+          <div class="card-footer"><span class="card-price">12.900 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+      <div class="menu-card visible" data-cat="meals">
+        <div class="card-img">🥗</div>
+        <div class="card-body">
+          <div class="card-name">Bowl Jardin Américain</div>
+          <div class="card-desc">Poulet grillé, mesclun, tomates cerises, avocat, sauce caesar maison.</div>
+          <div class="card-footer"><span class="card-price">11.900 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+
+      <!-- Drinks -->
+      <div class="menu-card visible" data-cat="drinks">
+        <div class="card-img">🥤<div class="card-badge">Rechargeable</div></div>
+        <div class="card-body">
+          <div class="card-name">Milkshake Route 66</div>
+          <div class="card-desc">Milkshake épais – Vanille, Chocolat, Fraise ou Caramel Salé.</div>
+          <div class="card-footer"><span class="card-price">6.500 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+      <div class="menu-card visible" data-cat="drinks">
+        <div class="card-img">🍋</div>
+        <div class="card-body">
+          <div class="card-name">Limonade Fraîche</div>
+          <div class="card-desc">Citrons pressés, menthe, sirop de sucre, eau pétillante. Classique ou tropical.</div>
+          <div class="card-footer"><span class="card-price">4.900 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+      <div class="menu-card visible" data-cat="drinks">
+        <div class="card-img">☕</div>
+        <div class="card-body">
+          <div class="card-name">Americano Glacé</div>
+          <div class="card-desc">Double shot espresso sur glace avec eau froide. Fort, lisse et rafraîchissant.</div>
+          <div class="card-footer"><span class="card-price">4.200 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+      <div class="menu-card visible" data-cat="drinks">
+        <div class="card-img">🧃</div>
+        <div class="card-body">
+          <div class="card-name">Jus Frais Combo</div>
+          <div class="card-desc">Orange, pomme, mangue ou mélange de saison – pressé à la commande.</div>
+          <div class="card-footer"><span class="card-price">5.500 DT</span><button class="card-add">+</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── DELIVERY ─── -->
+<section id="delivery">
+  <div class="max-w">
+    <div class="delivery-grid">
+      <div>
+        <p class="section-label reveal">Livraison à Domicile</p>
+        <h2 class="section-title reveal">Livré<br>à <em>Votre Porte</em></h2>
+        <p class="section-sub reveal">Route 66 assure un service de livraison fiable et rapide. Votre repas, chaud et frais, arrive directement chez vous — partout dans la zone de livraison.</p>
+
+        <div class="steps reveal">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <h3>Passez Votre Commande</h3>
+              <p>Choisissez parmi notre large sélection de plats préparés avec des ingrédients frais et soigneusement sélectionnés.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <h3>Confirmation & Préparation</h3>
+              <p>Votre commande est confirmée et notre équipe la prépare aussitôt avec le soin et la régularité qui font notre réputation.</p>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <h3>Livraison Rapide Chez Vous</h3>
+              <p>Notre livreur vous apporte votre repas à domicile, chaud et dans les meilleurs délais. Service rapide, garanti.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 2.5rem;" class="reveal">
+          <a href="#" class="btn-primary">🛵 Commander en Livraison</a>
+        </div>
+      </div>
+
+      <div class="delivery-visual reveal">
+        <div class="delivery-card-main">
+          <span class="delivery-icon-big">🛵</span>
+          <h3>Livraison Rapide & Fiable</h3>
+          <p>Un service de livraison adapté aux exigences du marché tunisien — disponible sur place, à emporter ou à domicile.</p>
+          <div class="delivery-meta">
+            <div class="delivery-meta-item">
+              <span class="val">6</span>
+              <span class="key">Adresses</span>
+            </div>
+            <div class="delivery-meta-item">
+              <span class="val">3</span>
+              <span class="key">Modes</span>
+            </div>
+            <div class="delivery-meta-item">
+              <span class="val">7j/7</span>
+              <span class="key">Ouvert</span>
+            </div>
+          </div>
+          <a href="#" class="btn-primary" style="width:100%; justify-content:center;">Commander Maintenant</a>
+
+          <div class="delivery-float df-1">📍 <span style="color:var(--yellow)">Votre commande est en route</span></div>
+          <div class="delivery-float df-2">⭐ 4.9 – "Qualité et rapidité au rendez-vous !"</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── RESERVATION ─── -->
+<section id="reservation">
+  <div class="max-w">
+    <div class="reservation-grid">
+      <div>
+        <p class="section-label reveal">Réserver une Table</p>
+        <h2 class="section-title reveal">Réservez<br>Votre <em>Table</em></h2>
+        <p class="section-sub reveal">Profitez d'une expérience culinaire conviviale dans un cadre moderne et chaleureux. Réservez votre table en quelques secondes.</p>
+
+        <div class="res-perks reveal">
+          <div class="perk"><div class="perk-icon">⚡</div>Confirmation rapide de votre réservation</div>
+          <div class="perk"><div class="perk-icon">🎂</div>Occasions spéciales — anniversaires, repas en groupe</div>
+          <div class="perk"><div class="perk-icon">🍽️</div>Service sur place dans un cadre soigné</div>
+          <div class="perk"><div class="perk-icon">📍</div>6 adresses disponibles à travers la Tunisie</div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <form id="bookingForm" style="background: var(--black); border: 1px solid rgba(255,208,0,0.1); border-radius: 8px; padding: 2rem;">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Nom complet</label>
+              <input type="text" placeholder="Votre nom" required>
+            </div>
+            <div class="form-group">
+              <label>Numéro de téléphone</label>
+              <input type="tel" placeholder="+216 XX XXX XXX" required>
+            </div>
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" required>
+            </div>
+            <div class="form-group">
+              <label>Heure</label>
+              <input type="time" required>
+            </div>
+            <div class="form-group">
+              <label>Nombre de personnes</label>
+              <select required>
+                <option value="">Choisir</option>
+                <option>1 personne</option>
+                <option>2 personnes</option>
+                <option>3–4 personnes</option>
+                <option>5–6 personnes</option>
+                <option>7–10 personnes</option>
+                <option>10+ (groupe)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Adresse</label>
+              <select>
+                <option value="">Choisir une adresse</option>
+                <option>Route 66 – Jardin de Carthage</option>
+                <option>Route 66 – El Menzah 6</option>
+                <option>Route 66 – Ben Arous</option>
+                <option>Route 66 – Ezzahra</option>
+                <option>Route 66 – Mégrine</option>
+                <option>Route 66 – Bardo</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label>Message (facultatif)</label>
+              <textarea placeholder="Anniversaire, allergie, demande particulière..."></textarea>
+            </div>
+          </div>
+          <div class="form-submit">
+            <button type="submit" class="btn-primary" style="width:100%; justify-content:center; font-size:1.05rem; padding:16px 28px;">
+              📅 Confirmer la Réservation
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── LOCATIONS ─── -->
+<section id="locations">
+  <div class="max-w">
+    <div class="locations-header reveal">
+      <p class="section-label">Nos Adresses</p>
+      <h2 class="section-title">Où Nous <em>Trouver</em></h2>
+      <p class="section-sub">Présents à Jardin de Carthage, El Menzah 6, Ben Arous, Ezzahra, Mégrine et Bardo — toujours proches de vous.</p>
+    </div>
+
+    <div class="locations-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));">
+      <div class="location-card reveal">
+        <div class="location-number">01</div>
+        <div class="location-top">
+          <div class="loc-icon">📍</div>
+          <div>
+            <div class="loc-name">ROUTE 66</div>
+            <div class="loc-branch">Jardin de Carthage</div>
+          </div>
+        </div>
+        <div class="location-body">
+          <div class="loc-info">
+            <div class="loc-row"><span class="icon">🏠</span><span>Jardin de Carthage, Tunis</span></div>
+            <div class="loc-row"><span class="icon">📞</span><span>+216 71 100 001</span></div>
+            <div class="loc-row"><span class="icon">🕐</span><span>Tlj : 10h00 – 01h00</span></div>
+            <span class="loc-status">● Ouvert</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="location-card reveal">
+        <div class="location-number">02</div>
+        <div class="location-top">
+          <div class="loc-icon">📍</div>
+          <div>
+            <div class="loc-name">ROUTE 66</div>
+            <div class="loc-branch">El Menzah 6</div>
+          </div>
+        </div>
+        <div class="location-body">
+          <div class="loc-info">
+            <div class="loc-row"><span class="icon">🏠</span><span>El Menzah 6, Tunis</span></div>
+            <div class="loc-row"><span class="icon">📞</span><span>+216 71 100 002</span></div>
+            <div class="loc-row"><span class="icon">🕐</span><span>Tlj : 10h00 – 01h00</span></div>
+            <span class="loc-status">● Ouvert</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="location-card reveal">
+        <div class="location-number">03</div>
+        <div class="location-top">
+          <div class="loc-icon">📍</div>
+          <div>
+            <div class="loc-name">ROUTE 66</div>
+            <div class="loc-branch">Ben Arous</div>
+          </div>
+        </div>
+        <div class="location-body">
+          <div class="loc-info">
+            <div class="loc-row"><span class="icon">🏠</span><span>Ben Arous, Grand Tunis</span></div>
+            <div class="loc-row"><span class="icon">📞</span><span>+216 71 100 003</span></div>
+            <div class="loc-row"><span class="icon">🕐</span><span>Tlj : 10h00 – 01h00</span></div>
+            <span class="loc-status">● Ouvert</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="location-card reveal">
+        <div class="location-number">04</div>
+        <div class="location-top">
+          <div class="loc-icon">📍</div>
+          <div>
+            <div class="loc-name">ROUTE 66</div>
+            <div class="loc-branch">Ezzahra</div>
+          </div>
+        </div>
+        <div class="location-body">
+          <div class="loc-info">
+            <div class="loc-row"><span class="icon">🏠</span><span>Ezzahra, Ben Arous</span></div>
+            <div class="loc-row"><span class="icon">📞</span><span>+216 71 100 004</span></div>
+            <div class="loc-row"><span class="icon">🕐</span><span>Tlj : 10h00 – 01h00</span></div>
+            <span class="loc-status">● Ouvert</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="location-card reveal">
+        <div class="location-number">05</div>
+        <div class="location-top">
+          <div class="loc-icon">📍</div>
+          <div>
+            <div class="loc-name">ROUTE 66</div>
+            <div class="loc-branch">Mégrine</div>
+          </div>
+        </div>
+        <div class="location-body">
+          <div class="loc-info">
+            <div class="loc-row"><span class="icon">🏠</span><span>Mégrine, Ben Arous</span></div>
+            <div class="loc-row"><span class="icon">📞</span><span>+216 71 100 005</span></div>
+            <div class="loc-row"><span class="icon">🕐</span><span>Tlj : 10h00 – 01h00</span></div>
+            <span class="loc-status">● Ouvert</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="location-card reveal">
+        <div class="location-number">06</div>
+        <div class="location-top">
+          <div class="loc-icon">📍</div>
+          <div>
+            <div class="loc-name">ROUTE 66</div>
+            <div class="loc-branch">Bardo</div>
+          </div>
+        </div>
+        <div class="location-body">
+          <div class="loc-info">
+            <div class="loc-row"><span class="icon">🏠</span><span>Bardo, Tunis</span></div>
+            <div class="loc-row"><span class="icon">📞</span><span>+216 71 100 006</span></div>
+            <div class="loc-row"><span class="icon">🕐</span><span>Tlj : 10h00 – 01h00</span></div>
+            <span class="loc-status">● Ouvert</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">
+        <svg class="logo-shield" viewBox="0 0 44 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 2L40 10V28C40 38.5 32 46.5 22 50C12 46.5 4 38.5 4 28V10L22 2Z" fill="#FFD000"/>
+          <path d="M22 6L36 13V28C36 36.5 30 43 22 46C14 43 8 36.5 8 28V13L22 6Z" fill="#0a0a0a"/>
+          <text x="22" y="32" font-family="'Black Han Sans', sans-serif" font-size="13" fill="#FFD000" text-anchor="middle">66</text>
+        </svg>
+        <div class="logo-text">ROUTE 66<span>Restauration Rapide</span></div>
+      </a>
+      <p>Depuis plusieurs années, Route 66 s'impose comme une référence de la restauration rapide moderne en Tunisie — fraîcheur, qualité et service rapide au rendez-vous.</p>
+      <div class="social-links">
+        <a href="#" class="social-link" aria-label="Facebook">📘</a>
+        <a href="#" class="social-link" aria-label="Instagram">📷</a>
+        <a href="#" class="social-link" aria-label="TikTok">🎵</a>
+        <a href="#" class="social-link" aria-label="YouTube">▶️</a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>Liens Rapides</h4>
+      <ul>
+        <li><a href="#about">À Propos</a></li>
+        <li><a href="#menu">Notre Menu</a></li>
+        <li><a href="#delivery">Livraison</a></li>
+        <li><a href="#reservation">Réserver</a></li>
+        <li><a href="#locations">Nos Adresses</a></li>
+        <li><a href="#">Recrutement</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Menu</h4>
+      <ul>
+        <li><a href="#">Burgers</a></li>
+        <li><a href="#">Fast Food</a></li>
+        <li><a href="#">Plats & Assiettes</a></li>
+        <li><a href="#">Boissons</a></li>
+        <li><a href="#">Menu Enfants</a></li>
+        <li><a href="#">Plateaux & Traiteur</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <div class="contact-row">📞 <span>+216 71 100 000</span></div>
+      <div class="contact-row">✉️ <span>contact@route66.tn</span></div>
+      <div class="contact-row">📍 <span>6 adresses en Tunisie</span></div>
+      <div class="contact-row">🕐 <span>Ouvert 7j/7 de 10h à 01h</span></div>
+      <div style="margin-top: 1rem;">
+        <a href="#reservation" class="btn-primary" style="font-size:0.82rem; padding:10px 18px;">📅 Réserver</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2025 Route 66 – Restauration Rapide. Tous droits réservés.</span>
+    <span>
+      <a href="#">Politique de confidentialité</a> &nbsp;·&nbsp;
+      <a href="#">Conditions d'utilisation</a> &nbsp;·&nbsp;
+      <a href="#">Allergènes</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+  // Scroll progress
+  window.addEventListener('scroll', () => {
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('scrollProgress').style.width = pct + '%';
+  });
+
+  // Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const navbar = document.getElementById('navbar');
+  hamburger.addEventListener('click', () => navbar.classList.toggle('open'));
+
+  // Close nav on link click
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => navbar.classList.remove('open'));
+  });
+
+  // Menu tabs
+  document.querySelectorAll('.menu-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const cat = tab.dataset.cat;
+      document.querySelectorAll('.menu-card').forEach(card => {
+        if (cat === 'all' || card.dataset.cat === cat) {
+          card.classList.add('visible');
+        } else {
+          card.classList.remove('visible');
+        }
+      });
+    });
+  });
+
+  // Card add buttons
+  document.querySelectorAll('.card-add').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      btn.style.transform = 'scale(1.3)';
+      btn.style.background = '#2ecc40';
+      btn.textContent = '✓';
+      setTimeout(() => {
+        btn.style.transform = '';
+        btn.style.background = '';
+        btn.textContent = '+';
+      }, 800);
+    });
+  });
+
+  // Booking form
+  document.getElementById('bookingForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+    e.target.reset();
+  });
+
+  // Reveal on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Set min date for booking
+  const dateInput = document.querySelector('input[type="date"]');
+  if (dateInput) {
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+  }
+</script>
+</body>
+</html>
