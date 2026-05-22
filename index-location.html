@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Visite Virtuelle 360</title>
+
+  <!-- Pannellum CSS -->
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.css"/>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    body{
+      font-family:Arial, sans-serif;
+      background:#111;
+      overflow:hidden;
+    }
+
+    #panorama{
+      width:100%;
+      height:100vh;
+    }
+
+    .title{
+      position:absolute;
+      top:20px;
+      left:20px;
+      z-index:10;
+      background:rgba(0,0,0,0.5);
+      color:white;
+      padding:10px 15px;
+      border-radius:10px;
+      backdrop-filter: blur(5px);
+    }
+  </style>
+</head>
+<body>
+
+<div class="title">
+  Visite Virtuelle 360°
+</div>
+
+<div id="panorama"></div>
+
+<!-- Pannellum JS -->
+<script src="https://cdn.jsdelivr.net/npm/pannellum/build/pannellum.js"></script>
+
+<script>
+pannellum.viewer('panorama', {
+    type: 'equirectangular',
+
+    // Image 360 gratuite (Unsplash / Wikimedia)
+    panorama:
+      'https://pannellum.org/images/alma.jpg',
+
+    autoLoad: true,
+    compass: true,
+    showZoomCtrl: true,
+    mouseZoom: true,
+
+    hfov: 110,
+    pitch: 0,
+    yaw: 180
+});
+</script>
+
+</body>
+</html>
