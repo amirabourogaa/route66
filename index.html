@@ -1,49 +1,130 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Ab-iT · Route66 Collection | Luxe & Fast-Food</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Route66 · Deux univers, une signature</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /* ===== ROOT ===== */
     :root {
-      --gold-primary: #D4AF37;
+      --gold: #D4AF37;
+      --gold-soft: #F9E7B3;
+      --gold-dark: #AA7700;
       --gold-metallic: linear-gradient(135deg, #F9E7B3 0%, #D4AF37 40%, #AA7700 70%, #E5C76F 100%);
       --deep-onyx: #0B0A0E;
-      --cream-white: #FCF7F0;
+      --cream: #FCF7F0;
       --road-red: #C12B2B;
     }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       font-family: 'DM Sans', sans-serif;
       background: var(--deep-onyx);
-      color: var(--cream-white);
+      color: var(--cream);
       min-height: 100vh;
       overflow-x: hidden;
       cursor: none;
     }
 
-    .cursor-dot {
-      position: fixed; width: 8px; height: 8px;
-      background: var(--gold-primary); border-radius: 50%;
-      pointer-events: none; z-index: 9999;
+    /* ===== CURSEUR ===== */
+    .cursor-ring {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      border-radius: 50%;
+      border: 2px solid rgba(212, 175, 55, 0.7);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.25), inset 0 0 25px rgba(212, 175, 55, 0.1);
       transform: translate(-50%, -50%);
-      transition: width 0.2s, height 0.2s, background 0.2s;
-      box-shadow: 0 0 12px rgba(212,175,55,0.7);
-    }
-    .cursor-outline {
-      position: fixed; width: 42px; height: 42px;
-      border: 1.5px solid rgba(212,175,55,0.7); border-radius: 50%;
-      pointer-events: none; z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: transform 0.12s ease, width 0.2s, height 0.2s, border-color 0.2s;
+      transition: width 0.15s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  height 0.15s cubic-bezier(0.25, 0.1, 0.25, 1),
+                  border-color 0.2s ease,
+                  box-shadow 0.3s ease;
+      will-change: transform, width, height;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
       backdrop-filter: blur(2px);
+      width: 40px;
+      height: 40px;
     }
-    .cursor-dot.hovered { width: 20px; height: 20px; background: var(--cream-white); box-shadow: 0 0 28px gold; }
-    .cursor-outline.hovered { width: 64px; height: 64px; border-color: rgba(255,215,0,0.9); }
 
-    #burger-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+    .cursor-ring .ring-dot {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.8);
+      transition: width 0.2s, height 0.2s, background 0.2s;
+    }
+
+    .cursor-ring.hovered {
+      width: 72px !important;
+      height: 72px !important;
+      border-color: rgba(255, 215, 0, 0.9);
+      box-shadow: 0 0 50px rgba(212, 175, 55, 0.4), inset 0 0 50px rgba(212, 175, 55, 0.15);
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+    }
+
+    .cursor-ring.hovered .ring-dot {
+      width: 10px;
+      height: 10px;
+      background: #fff;
+      box-shadow: 0 0 35px gold;
+    }
+
+    .cursor-ring .ring-orb {
+      position: absolute;
+      top: -4px;
+      left: 50%;
+      width: 8px;
+      height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.6);
+      animation: orbitSpin 3s linear infinite;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+
+    .cursor-ring.hovered .ring-orb {
+      opacity: 1;
+      animation-duration: 1.8s;
+      width: 12px;
+      height: 12px;
+      box-shadow: 0 0 30px gold;
+    }
+
+    @keyframes orbitSpin {
+      0% { transform: translateX(-50%) rotate(0deg) translateX(20px) rotate(0deg); }
+      100% { transform: translateX(-50%) rotate(360deg) translateX(20px) rotate(-360deg); }
+    }
+
+    .cursor-trail {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
+      transform: translate(-50%, -50%);
+      filter: blur(4px);
+      will-change: transform, opacity;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .cursor-trail.active { opacity: 1; }
+
+    /* ===== BACKGROUND ===== */
     .bg-luxury {
       position: fixed; inset: 0; z-index: 0;
       background: radial-gradient(circle at 20% 30%, rgba(212,175,55,0.08) 0%, rgba(0,0,0,0.95) 90%),
@@ -54,17 +135,25 @@
       background-image: linear-gradient(rgba(212,175,55,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.04) 1px, transparent 1px);
       background-size: 70px 70px; pointer-events: none; z-index: 2;
     }
+
     .gold-orb {
       position: fixed; border-radius: 50%; filter: blur(80px);
-      pointer-events: none; z-index: 1; opacity: 0.5;
+      pointer-events: none; z-index: 1; opacity: 0.4;
       animation: driftGold 14s infinite alternate ease-in-out;
+      will-change: transform;
     }
     @keyframes driftGold {
       0% { transform: translate(0,0) scale(1); }
       100% { transform: translate(6%,8%) scale(1.2); }
     }
 
-    /* ======== LOGO ROUTE 66 SIMPLE LUXE ======== */
+    #food-canvas {
+      position: fixed; inset: 0; z-index: 1;
+      pointer-events: none;
+      width: 100%; height: 100%;
+    }
+
+    /* ===== LOGO ===== */
     .logo-container {
       opacity: 0; transform: translateY(-20px);
       animation: fadeUp 1s cubic-bezier(0.2,0.9,0.3,1.1) 0.2s forwards;
@@ -73,19 +162,14 @@
     }
     @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
 
-    .logo-wordmark {
-      display: flex; flex-direction: column; align-items: center; gap: 2px;
-    }
-
     .logo-route-text {
       font-family: 'DM Sans', sans-serif;
       font-size: 13px; font-weight: 300;
       letter-spacing: 0.55em;
       text-transform: uppercase;
       color: rgba(212,175,55,0.7);
-      padding-left: 0.55em; /* optical align for letter-spacing */
+      padding-left: 0.55em;
     }
-
     .logo-66-text {
       font-family: 'Syne', sans-serif;
       font-size: 96px; font-weight: 800;
@@ -94,18 +178,16 @@
       background: linear-gradient(160deg, #FFF8E7 0%, #E5C76F 35%, #D4AF37 60%, #AA7700 100%);
       -webkit-background-clip: text; background-clip: text; color: transparent;
       animation: shimmer66 4s ease-in-out infinite alternate;
+      will-change: filter;
     }
     @keyframes shimmer66 {
       0%   { filter: drop-shadow(0 0 4px rgba(212,175,55,0.3)); }
-      100% { filter: drop-shadow(0 0 16px rgba(212,175,55,0.65)); }
+      100% { filter: drop-shadow(0 0 18px rgba(212,175,55,0.65)); }
     }
-
-    /* fine gold rule */
     .logo-rule {
       width: 100%; height: 1px;
       background: linear-gradient(90deg, transparent, rgba(212,175,55,0.8), rgba(255,232,138,0.9), rgba(212,175,55,0.8), transparent);
     }
-
     .logo-sub {
       font-family: 'DM Sans', sans-serif;
       font-size: 10px; font-weight: 400;
@@ -114,8 +196,8 @@
       color: rgba(212,175,55,0.45);
       padding-left: 0.5em;
     }
-    /* ============================================ */
 
+    /* ===== PAGE ===== */
     .page {
       position: relative; z-index: 12;
       padding: 50px 24px 80px;
@@ -135,10 +217,17 @@
     .headline h1 {
       font-family: 'Syne', sans-serif;
       font-size: clamp(34px, 6vw, 58px); font-weight: 800; letter-spacing: -0.02em;
-      background: linear-gradient(135deg, #FFF8E7 0%, var(--gold-primary) 40%, #C99F1E 80%);
+      background: linear-gradient(135deg, #FFF8E7 0%, var(--gold) 40%, #C99F1E 80%);
       -webkit-background-clip: text; background-clip: text; color: transparent;
     }
-    .headline p { color: rgba(252,247,240,0.5); font-size: 1rem; letter-spacing: 0.3px; }
+    .headline p {
+      color: rgba(252,247,240,0.6);
+      font-size: 1.05rem;
+      letter-spacing: 0.3px;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
     .stats-row {
       display: flex; gap: 40px; margin-top: 28px;
@@ -171,6 +260,7 @@
       overflow: hidden; transition: transform 0.08s linear, box-shadow 0.4s;
       box-shadow: 0 20px 35px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(212,175,55,0.1);
       transform-style: preserve-3d;
+      will-change: transform;
     }
     .card-inner:hover { box-shadow: 0 32px 55px -15px black, 0 0 0 2px rgba(212,175,55,0.4); }
     .card-illustration { height: 220px; position: relative; border-bottom: 1px solid rgba(212,175,55,0.3); }
@@ -180,7 +270,7 @@
     .model-badge {
       display: inline-flex; align-items: center; gap: 8px;
       background: rgba(212,175,55,0.12); padding: 5px 14px; border-radius: 40px;
-      font-size: 12px; font-weight: 600; color: var(--gold-primary);
+      font-size: 12px; font-weight: 600; color: var(--gold);
       border: 0.5px solid rgba(212,175,55,0.4); margin-bottom: 14px;
     }
     .card-title {
@@ -198,8 +288,8 @@
     }
     .btn-gold { background: linear-gradient(115deg, #D4AF37, #B27D28); color: #0B0A0E; box-shadow: 0 6px 14px rgba(0,0,0,0.3); border: none; }
     .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 12px 20px rgba(212,175,55,0.3); background: linear-gradient(115deg, #E5C76F, #C69C2D); }
-    .btn-outline-gold { background: rgba(0,0,0,0.5); border: 1px solid rgba(212,175,55,0.7); color: var(--gold-primary); }
-    .btn-outline-gold:hover { background: rgba(212,175,55,0.15); border-color: var(--gold-primary); transform: translateY(-2px); color: #FFE5B4; }
+    .btn-outline-gold { background: rgba(0,0,0,0.5); border: 1px solid rgba(212,175,55,0.7); color: var(--gold); }
+    .btn-outline-gold:hover { background: rgba(212,175,55,0.15); border-color: var(--gold); transform: translateY(-2px); color: #FFE5B4; }
 
     .luxury-footer {
       margin-top: 70px; text-align: center; font-size: 12px;
@@ -213,203 +303,286 @@
       .btn-model { width: 100%; }
       .logo-66-text { font-size: 72px; }
     }
+
+    .light-sweep {
+      position: fixed;
+      top: -30%; left: -20%;
+      width: 60%; height: 120%;
+      background: radial-gradient(ellipse at center, rgba(212,175,55,0.06) 0%, transparent 70%);
+      transform: rotate(-18deg);
+      pointer-events: none;
+      z-index: 1;
+      animation: sweepGlow 18s infinite alternate ease-in-out;
+    }
+    @keyframes sweepGlow {
+      0% { transform: rotate(-18deg) translateX(-10%) scale(1); opacity: 0.4; }
+      100% { transform: rotate(8deg) translateX(30%) scale(1.4); opacity: 0.9; }
+    }
   </style>
 </head>
 <body>
 
-<div class="cursor-dot" id="cursorDot"></div>
-<div class="cursor-outline" id="cursorOutline"></div>
-<div class="bg-luxury"></div>
-<div class="grid-subtle"></div>
-<canvas id="burger-canvas"></canvas>
-<div class="gold-orb" style="width:450px;height:450px;background:radial-gradient(circle,#D4AF3740,transparent);bottom:-150px;left:-120px;"></div>
-<div class="gold-orb" style="width:380px;height:380px;background:radial-gradient(circle,#B8733340,transparent);top:20%;right:-80px;animation-duration:18s;"></div>
-<div class="gold-orb" style="width:300px;height:300px;background:radial-gradient(circle,#F9E7B330,transparent);top:60%;left:20%;animation-duration:12s;"></div>
+  <!-- ===== CURSEUR ===== -->
+  <div class="cursor-ring" id="cursorRing">
+    <div class="ring-dot"></div>
+    <div class="ring-orb"></div>
+  </div>
+  <div class="cursor-trail" id="cursorTrail"></div>
 
-<main class="page">
-  <div class="gold-badge">✦ ROUTE66 COLLECTION ✦ LUXE & ICONIC</div>
+  <!-- ===== BACKGROUND ===== -->
+  <div class="bg-luxury"></div>
+  <div class="grid-subtle"></div>
 
-  <!-- LOGO ROUTE 66 SIMPLE LUXE -->
-  <div class="logo-container">
-    <div class="logo-wordmark">
-      <span class="logo-route-text">Route</span>
-      <span class="logo-66-text">66</span>
-      <div class="logo-rule"></div>
-      <span class="logo-sub">Collection · Luxe</span>
+  <div class="gold-orb" style="width:450px;height:450px;background:radial-gradient(circle,#D4AF3740,transparent);bottom:-150px;left:-120px;"></div>
+  <div class="gold-orb" style="width:380px;height:380px;background:radial-gradient(circle,#B8733340,transparent);top:20%;right:-80px;animation-duration:18s;"></div>
+  <div class="gold-orb" style="width:300px;height:300px;background:radial-gradient(circle,#F9E7B330,transparent);top:60%;left:20%;animation-duration:12s;"></div>
+  <div class="light-sweep"></div>
+
+  <canvas id="food-canvas"></canvas>
+
+  <!-- ===== MAIN ===== -->
+  <main class="page">
+
+    <div class="gold-badge">✦ ROUTE66 · DEUX UNIVERS, UNE SIGNATURE ✦</div>
+
+    <!-- LOGO -->
+    <div class="logo-container">
+      <div class="logo-wordmark">
+        <span class="logo-route-text">Route</span>
+        <span class="logo-66-text">66</span>
+        <div class="logo-rule"></div>
+        <span class="logo-sub">Collection · Luxe</span>
+      </div>
     </div>
-  </div>
 
-  <div class="headline text-center mt-8">
-    <h1>Gold Route66 · Double vision</h1>
-    <p class="mt-2 max-w-md mx-auto">Deux modèles, une signature exclusive — ambiance fast‑food américain ou traiteur d'exception. Sélectionnez votre univers.</p>
-  </div>
+    <div class="headline text-center mt-8">
+      <h1>Deux sites, une vision</h1>
+      <p class="mt-2">
+        Découvrez l'univers Route66 à travers deux expériences distinctes :<br />
+        <span class="text-gold-400 font-semibold" style="color:#E5C76F;">Route66</span> — l'esprit road trip &amp; diner iconique,<br />
+        et <span class="text-gold-400 font-semibold" style="color:#E5C76F;">Continental Catering</span> — l'art de la réception premium.
+      </p>
+    </div>
 
-  <div class="stats-row mt-6">
-    <div class="stat-item text-center"><div class="stat-number">✦2✦</div><div class="stat-label">Modèles iconiques</div></div>
-    <div class="stat-item text-center"><div class="stat-number">∞</div><div class="stat-label">Personnalisation</div></div>
-    <div class="stat-item text-center"><div class="stat-number">24/7</div><div class="stat-label">Support VIP</div></div>
-  </div>
+    <div class="stats-row mt-6">
+      <div class="stat-item text-center"><div class="stat-number">✦2✦</div><div class="stat-label">Univers exclusifs</div></div>
+      <div class="stat-item text-center"><div class="stat-number">∞</div><div class="stat-label">Personnalisation</div></div>
+      <div class="stat-item text-center"><div class="stat-number">24/7</div><div class="stat-label">Accompagnement VIP</div></div>
+    </div>
 
-  <div class="cards-grid">
-    <div class="card-3d">
-      <div class="card-inner" id="cardFastfood">
-        <div class="card-illustration illu-route66 relative overflow-hidden">
-          <svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="none" style="position:absolute;top:0;left:0;">
-            <defs>
-              <linearGradient id="skyRoad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#0F0C0A"/>
-                <stop offset="100%" stop-color="#2A1E15"/>
-              </linearGradient>
-            </defs>
-            <rect width="400" height="220" fill="url(#skyRoad)"/>
-            <rect x="30" y="25" width="75" height="35" rx="6" fill="#C12B2B" stroke="#D4AF37" stroke-width="1.5"/>
-            <text x="67" y="44" font-family="Syne" font-weight="800" font-size="11" fill="white" text-anchor="middle">ROUTE</text>
-            <circle cx="67" cy="54" r="11" fill="#C12B2B" stroke="#D4AF37" stroke-width="1"/>
-            <text x="67" y="57" font-family="Syne" font-size="12" font-weight="800" fill="white" text-anchor="middle">66</text>
-            <polygon points="80,140 320,140 380,220 20,220" fill="#1A1512"/>
-            <line x1="80" y1="140" x2="20" y2="220" stroke="#D4AF37" stroke-width="2" stroke-dasharray="6 6" opacity="0.8"/>
-            <line x1="320" y1="140" x2="380" y2="220" stroke="#D4AF37" stroke-width="2" stroke-dasharray="6 6" opacity="0.8"/>
-            <rect x="185" y="150" width="30" height="12" rx="4" fill="#D4AF37" opacity="0.9"/>
-            <g transform="translate(240,130)">
-              <rect x="0" y="5" width="50" height="14" rx="3" fill="#B87333"/>
-              <rect x="6" y="0" width="36" height="8" rx="3" fill="#E5A54F"/>
-              <circle cx="10" cy="19" r="6" fill="#222"/><circle cx="40" cy="19" r="6" fill="#222"/>
-              <ellipse cx="47" cy="11" rx="4" ry="3" fill="#FFD966"/>
-            </g>
-            <circle cx="90" cy="100" r="18" fill="none" stroke="#D4AF37" stroke-width="2" opacity="0.8"/>
-            <text x="90" y="106" text-anchor="middle" font-size="18">🍔</text>
-            <text x="280" y="90" fill="#D4AF37" font-size="12" opacity="0.9">GOLDEN DINER</text>
-          </svg>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+    <div class="cards-grid">
+      <!-- CARD 1 : ROUTE 66 -->
+      <div class="card-3d">
+        <div class="card-inner" id="cardFastfood">
+          <div class="card-illustration illu-route66 relative overflow-hidden">
+            <svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="none" style="position:absolute;top:0;left:0;">
+              <defs>
+                <linearGradient id="skyRoad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#0F0C0A"/>
+                  <stop offset="100%" stop-color="#2A1E15"/>
+                </linearGradient>
+              </defs>
+              <rect width="400" height="220" fill="url(#skyRoad)"/>
+              <rect x="30" y="25" width="75" height="35" rx="6" fill="#C12B2B" stroke="#D4AF37" stroke-width="1.5"/>
+              <text x="67" y="44" font-family="Syne" font-weight="800" font-size="11" fill="white" text-anchor="middle">ROUTE</text>
+              <circle cx="67" cy="54" r="11" fill="#C12B2B" stroke="#D4AF37" stroke-width="1"/>
+              <text x="67" y="57" font-family="Syne" font-size="12" font-weight="800" fill="white" text-anchor="middle">66</text>
+              <polygon points="80,140 320,140 380,220 20,220" fill="#1A1512"/>
+              <line x1="80" y1="140" x2="20" y2="220" stroke="#D4AF37" stroke-width="2" stroke-dasharray="6 6" opacity="0.8"/>
+              <line x1="320" y1="140" x2="380" y2="220" stroke="#D4AF37" stroke-width="2" stroke-dasharray="6 6" opacity="0.8"/>
+              <rect x="185" y="150" width="30" height="12" rx="4" fill="#D4AF37" opacity="0.9"/>
+              <g transform="translate(240,130)">
+                <rect x="0" y="5" width="50" height="14" rx="3" fill="#B87333"/>
+                <rect x="6" y="0" width="36" height="8" rx="3" fill="#E5A54F"/>
+                <circle cx="10" cy="19" r="6" fill="#222"/><circle cx="40" cy="19" r="6" fill="#222"/>
+                <ellipse cx="47" cy="11" rx="4" ry="3" fill="#FFD966"/>
+              </g>
+              <circle cx="90" cy="100" r="18" fill="none" stroke="#D4AF37" stroke-width="2" opacity="0.8"/>
+              <text x="90" y="106" text-anchor="middle" font-size="18">🍔</text>
+              <text x="280" y="90" fill="#D4AF37" font-size="12" opacity="0.9">GOLDEN DINER</text>
+            </svg>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
+          </div>
+          <div class="card-content">
+            <div class="model-badge"><span>🏁 ROUTE66 · ROAD TRIP & DINER</span> <span>🔥</span></div>
+            <h3 class="card-title">Route66</h3>
+            <p class="card-desc">
+              L'icône américaine revisitée. Ambiance fast‑food chic, néons, banquettes en cuir et menus signatures. 
+              Plongez dans l'esprit de la Route 66 avec une expérience digitale immersive.
+            </p>
+            <div class="links-row">
+              <a href="#" class="btn-model btn-gold"><span>🚀 Découvrir Route66</span></a>
+              <a href="#" class="btn-model btn-outline-gold"><span>✨ Version Classique</span></a>
+              <a href="#" class="btn-model btn-outline-gold"><span>Visite virtuelle</span></a>
+            </div>
+          </div>
         </div>
-        <div class="card-content">
-          <div class="model-badge"><span>🏁 AMERICAN ROAD · FAST-FOOD</span> <span>🔥</span></div>
-          <h3 class="card-title">ROUTE 66</h3>
-          <p class="card-desc">EMOJI : FAST FOOD, restaurant, catering, évennement</p>
-          <div class="links-row">
-            <a href="website/index.html" class="btn-model btn-gold"><span>🚀 Modèle "Speedway"</span></a>
-            <a href="website/index-1.html" class="btn-model btn-outline-gold"><span>✨ Modèle "Classic Diner"</span></a>
-            <a href="index-location.html" class="btn-model btn-outline-gold"><span>Visite virtuelle</span></a>
+      </div>
+
+      <!-- CARD 2 : CONTINENTAL CATERING -->
+      <div class="card-3d">
+        <div class="card-inner" id="cardCatering">
+          <div class="card-illustration illu-catering relative">
+            <svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="none" style="position:absolute;">
+              <defs>
+                <radialGradient id="luxGlow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#1B1420"/>
+                </radialGradient>
+              </defs>
+              <rect width="400" height="220" fill="#16101E"/>
+              <circle cx="200" cy="110" r="90" fill="url(#luxGlow)"/>
+              <ellipse cx="200" cy="140" rx="70" ry="26" fill="#2E222E" stroke="#D4AF37" stroke-width="1.5"/>
+              <ellipse cx="200" cy="135" rx="48" ry="16" fill="#3D2A3D"/>
+              <ellipse cx="200" cy="133" rx="26" ry="8" fill="#F4C542" opacity="0.8"/>
+              <path d="M95 85 L105 85 L100 65 Z" fill="#D4AF37" opacity="0.8"/>
+              <ellipse cx="100" cy="85" rx="10" ry="3" fill="#F9E7B3"/>
+              <text x="300" y="50" font-size="22" fill="#D4AF37" opacity="0.7">✦</text>
+              <text x="50" y="170" font-size="12" fill="#D4AF37">RÉCEPTIONS D'EXCEPTION</text>
+              <text x="290" y="165" font-size="24">🥂</text>
+              <text x="70" y="55" font-size="28">🍽️</text>
+            </svg>
+          </div>
+          <div class="card-content">
+            <div class="model-badge"><span>🥂 CONTINENTAL CATERING · PREMIUM</span> <span>✦</span></div>
+            <h3 class="card-title">Continental Catering</h3>
+            <p class="card-desc">
+              L'excellence du traiteur pour vos plus belles réceptions. Mariages, cocktails d'affaires, galas privés.
+              Une expérience sur mesure, du devis en ligne à la mise en scène dorée.
+            </p>
+            <div class="links-row">
+              <a href="#" class="btn-model btn-gold"><span>🥇 Explorer Catering</span></a>
+              <a href="#" class="btn-model btn-outline-gold"><span>🍾 Demander un devis</span></a>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="card-3d">
-      <div class="card-inner" id="cardCatering">
-        <div class="card-illustration illu-catering relative">
-          <svg width="100%" height="100%" viewBox="0 0 400 220" preserveAspectRatio="none" style="position:absolute;">
-            <defs>
-              <radialGradient id="luxGlow" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.25"/>
-                <stop offset="100%" stop-color="#1B1420"/>
-              </radialGradient>
-            </defs>
-            <rect width="400" height="220" fill="#16101E"/>
-            <circle cx="200" cy="110" r="90" fill="url(#luxGlow)"/>
-            <ellipse cx="200" cy="140" rx="70" ry="26" fill="#2E222E" stroke="#D4AF37" stroke-width="1.5"/>
-            <ellipse cx="200" cy="135" rx="48" ry="16" fill="#3D2A3D"/>
-            <ellipse cx="200" cy="133" rx="26" ry="8" fill="#F4C542" opacity="0.8"/>
-            <path d="M95 85 L105 85 L100 65 Z" fill="#D4AF37" opacity="0.8"/>
-            <ellipse cx="100" cy="85" rx="10" ry="3" fill="#F9E7B3"/>
-            <text x="300" y="50" font-size="22" fill="#D4AF37" opacity="0.7">✦</text>
-            <text x="50" y="170" font-size="12" fill="#D4AF37">ÉVÉNEMENTS EXCLUSIFS</text>
-            <text x="290" y="165" font-size="24">🥂</text>
-            <text x="70" y="55" font-size="28">🍽️</text>
-          </svg>
-        </div>
-        <div class="card-content">
-          <div class="model-badge"><span>🥂 CATERING PREMIUM · GOLD SERVICE</span> <span>✦</span></div>
-          <h3 class="card-title">Route66 Catering</h3>
-          <p class="card-desc">Traiteur d'exception : sites vitrines pour mariages, cocktails d'affaires & réceptions privées. Galerie immersive, devis en ligne, landing dorée.</p>
-          <div class="links-row">
-            <a href="catering/index.html" class="btn-model btn-gold"><span>🥇 Modèle "Platinum Event"</span></a>
-            <a href="catering/index-1.html" class="btn-model btn-outline-gold"><span>🍾 Modèle "Golden Service"</span></a>
-          </div>
-        </div>
-      </div>
+    <div class="luxury-footer">
+      <p>⭐ Route66 · Deux sites, une même exigence : l'excellence à l'américaine. ⭐</p>
+      <p class="mt-2">✨ Route66 | Continental Catering — L'art de recevoir, version Gold ✨</p>
     </div>
-  </div>
+  </main>
 
-  <div class="luxury-footer">
-    <p>⭐ Ab-iT · Chaque projet intègre deux variations uniques. Personnalisation complète & licence gold métal. ⭐</p>
-    <p class="mt-2">✨ Route66 | American spirit meets luxe ✨</p>
-  </div>
-</main>
+  <script>
+    (function() {
+      // ===== FOOD CANVAS =====
+      const canvas = document.getElementById('food-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H;
 
-<script>
-  const canvas = document.getElementById('burger-canvas');
-  const ctx = canvas.getContext('2d');
-  let W = window.innerWidth, H = window.innerHeight;
-  canvas.width = W; canvas.height = H;
-  const burgers = [];
-  for (let i = 0; i < 55; i++) {
-    const size = Math.random() * 22 + 14;
-    burgers.push({
-      x: Math.random() * W, y: Math.random() * H, size,
-      alpha: Math.random() * 0.18 + 0.06,
-      speedX: (Math.random() - 0.5) * 0.25,
-      speedY: -(Math.random() * 0.35 + 0.1),
-      rot: Math.random() * Math.PI * 2,
-      rotSpeed: (Math.random() - 0.5) * 0.012
-    });
-  }
-  function drawBurgers() {
-    ctx.clearRect(0, 0, W, H);
-    for (const b of burgers) {
-      ctx.save();
-      ctx.translate(b.x, b.y); ctx.rotate(b.rot);
-      ctx.globalAlpha = b.alpha;
-      ctx.font = b.size + 'px serif';
-      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('🍔', 0, 0);
-      ctx.restore();
-      b.x += b.speedX; b.y += b.speedY; b.rot += b.rotSpeed;
-      if (b.y < -b.size) b.y = H + b.size;
-      if (b.x < -b.size) b.x = W + b.size;
-      if (b.x > W + b.size) b.x = -b.size;
-    }
-    requestAnimationFrame(drawBurgers);
-  }
-  window.addEventListener('resize', () => { W = window.innerWidth; H = window.innerHeight; canvas.width = W; canvas.height = H; });
-  drawBurgers();
+      function resize() {
+        W = window.innerWidth;
+        H = window.innerHeight;
+        canvas.width = W;
+        canvas.height = H;
+      }
+      window.addEventListener('resize', resize);
+      resize();
 
-  const dot = document.getElementById('cursorDot');
-  const outline = document.getElementById('cursorOutline');
-  let mouseX = 0, mouseY = 0, outlineX = 0, outlineY = 0;
-  document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX; mouseY = e.clientY;
-    dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px';
-  });
-  function animateOutline() {
-    outlineX += (mouseX - outlineX) * 0.12;
-    outlineY += (mouseY - outlineY) * 0.12;
-    outline.style.left = outlineX + 'px'; outline.style.top = outlineY + 'px';
-    requestAnimationFrame(animateOutline);
-  }
-  animateOutline();
-  document.querySelectorAll('a, .btn-model, .card-inner, .gold-badge').forEach(el => {
-    el.addEventListener('mouseenter', () => { dot.classList.add('hovered'); outline.classList.add('hovered'); });
-    el.addEventListener('mouseleave', () => { dot.classList.remove('hovered'); outline.classList.remove('hovered'); });
-  });
+      const FOOD_ICONS = ['🍔', '🥪', '🍕', '🌮', '🌭', '🍟', '🥙', '🧆', '🍝', '🍣'];
+      const items = [];
+      const COUNT = 48;
 
-  function apply3DTilt(inner) {
-    if (!inner) return;
-    inner.addEventListener('mousemove', (e) => {
-      const r = inner.getBoundingClientRect();
-      const dx = (e.clientX - (r.left + r.width/2)) / (r.width/2);
-      const dy = (e.clientY - (r.top + r.height/2)) / (r.height/2);
-      inner.style.transform = `perspective(1400px) rotateX(${dy * -8}deg) rotateY(${dx * 12}deg) translateZ(4px)`;
-      inner.style.transition = 'transform 0.05s linear';
-    });
-    inner.addEventListener('mouseleave', () => {
-      inner.style.transform = 'perspective(1400px) rotateX(0) rotateY(0) translateZ(0)';
-      inner.style.transition = 'transform 0.4s cubic-bezier(0.2,0.9,0.4,1.1)';
-    });
-  }
-  apply3DTilt(document.getElementById('cardFastfood'));
-  apply3DTilt(document.getElementById('cardCatering'));
-  document.addEventListener('contextmenu', e => e.preventDefault());
-</script>
+      for (let i = 0; i < COUNT; i++) {
+        const size = 22 + Math.random() * 32;
+        items.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          size: size,
+          alpha: 0.06 + Math.random() * 0.18,
+          speedX: (Math.random() - 0.5) * 0.3,
+          speedY: -(Math.random() * 0.4 + 0.08),
+          rot: Math.random() * 2 * Math.PI,
+          rotSpeed: (Math.random() - 0.5) * 0.01,
+          icon: FOOD_ICONS[Math.floor(Math.random() * FOOD_ICONS.length)]
+        });
+      }
+
+      function drawFood() {
+        ctx.clearRect(0, 0, W, H);
+        for (const it of items) {
+          ctx.save();
+          ctx.translate(it.x, it.y);
+          ctx.rotate(it.rot);
+          ctx.globalAlpha = it.alpha;
+          ctx.font = it.size + 'px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(it.icon, 0, 0);
+          ctx.restore();
+
+          it.x += it.speedX;
+          it.y += it.speedY;
+          it.rot += it.rotSpeed;
+
+          if (it.y < -it.size) { it.y = H + it.size; it.x = Math.random() * W; }
+          if (it.y > H + it.size) { it.y = -it.size; it.x = Math.random() * W; }
+          if (it.x < -it.size) it.x = W + it.size;
+          if (it.x > W + it.size) it.x = -it.size;
+        }
+        requestAnimationFrame(drawFood);
+      }
+      drawFood();
+
+      // ===== CURSEUR =====
+      const ring = document.getElementById('cursorRing');
+      const trail = document.getElementById('cursorTrail');
+      let mouseX = 0, mouseY = 0;
+      let trailX = 0, trailY = 0;
+      const trailHistory = [];
+      const TRAIL_LENGTH = 8;
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        ring.style.left = mouseX + 'px';
+        ring.style.top = mouseY + 'px';
+        trailHistory.push({ x: mouseX, y: mouseY });
+        if (trailHistory.length > TRAIL_LENGTH) trailHistory.shift();
+      });
+
+      function animateTrail() {
+        if (trailHistory.length > 1) {
+          trail.classList.add('active');
+          const oldest = trailHistory[0];
+          trailX += (oldest.x - trailX) * 0.3;
+          trailY += (oldest.y - trailY) * 0.3;
+          trail.style.left = trailX + 'px';
+          trail.style.top = trailY + 'px';
+        } else {
+          trail.classList.remove('active');
+        }
+        requestAnimationFrame(animateTrail);
+      }
+      animateTrail();
+
+      document.querySelectorAll('a, .btn-model, .card-inner, .gold-badge').forEach(el => {
+        el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+      });
+
+      // ===== 3D TILT =====
+      function apply3DTilt(inner) {
+        if (!inner) return;
+        inner.addEventListener('mousemove', (e) => {
+          const r = inner.getBoundingClientRect();
+          const dx = (e.clientX - (r.left + r.width/2)) / (r.width/2);
+          const dy = (e.clientY - (r.top + r.height/2)) / (r.height/2);
+          inner.style.transform = `perspective(1400px) rotateX(${dy * -8}deg) rotateY(${dx * 12}deg) translateZ(4px)`;
+          inner.style.transition = 'transform 0.05s linear';
+        });
+        inner.addEventListener('mouseleave', () => {
+          inner.style.transform = 'perspective(1400px) rotateX(0) rotateY(0) translateZ(0)';
+          inner.style.transition = 'transform 0.4s cubic-bezier(0.2,0.9,0.4,1.1)';
+        });
+      }
+      apply3DTilt(document.getElementById('cardFastfood'));
+      apply3DTilt(document.getElementById('cardCatering'));
+
+      document.addEventListener('contextmenu', e => e.preventDefault());
+    })();
+  </script>
 </body>
 </html>
